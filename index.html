@@ -1,3387 +1,1814 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#05060a">
-<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Spectrum Awards — 2030</title>
+<title>Spectrum Awards | CrowRules Entertainment</title>
 
-<meta
-  name="description"
-  content="Spectrum Awards — celebrating the full spectrum of entertainment, creators, stories, performances and communities."
->
+<meta name="description"
+content="Spectrum Awards — a future CrowRules Entertainment awards experience celebrating entertainment, creativity, and the people behind it. Currently in planning.">
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Orbitron:wght@500;600;700;800&display=swap');
+/* =========================================================
+   SPECTRUM AWARDS
+   PLANNING EDITION
+   CrowRules Entertainment
+========================================================= */
 
 :root {
-  --bg: #05060a;
-  --bg2: #090b12;
-  --panel: #0d1018;
-  --panel2: #111522;
-  --line: rgba(255,255,255,.10);
-  --text: #f5f7ff;
-  --muted: #99a3b8;
-  --purple: #8b6cff;
-  --blue: #36d9ff;
-  --pink: #ff4f9a;
-  --green: #58e69a;
-  --red: #ff5577;
-  --yellow: #ffd166;
-  --radius: 18px;
-  --shadow: 0 25px 80px rgba(0,0,0,.45);
+    --bg: #050509;
+    --bg2: #0b0b12;
+    --panel: rgba(15, 15, 25, 0.82);
+    --panel-light: rgba(255,255,255,0.055);
+
+    --white: #ffffff;
+    --muted: #a9a9b7;
+
+    --pink: #ff2d95;
+    --red: #ff4057;
+    --orange: #ff8a32;
+    --yellow: #ffe45e;
+    --green: #49e58d;
+    --cyan: #36e5ff;
+    --blue: #4d7cff;
+    --purple: #8b5cff;
+    --violet: #c65cff;
+
+    --radius: 24px;
+    --max: 1240px;
 }
 
 * {
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
+    scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  color: var(--text);
-  background:
-    radial-gradient(circle at 10% 0%, rgba(139,108,255,.16), transparent 30rem),
-    radial-gradient(circle at 90% 10%, rgba(54,217,255,.10), transparent 30rem),
-    var(--bg);
-  font-family: Montserrat, Arial, sans-serif;
-  line-height: 1.6;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(255,45,149,.10), transparent 30%),
+        radial-gradient(circle at 85% 20%, rgba(54,229,255,.09), transparent 30%),
+        radial-gradient(circle at 50% 90%, rgba(139,92,255,.10), transparent 35%),
+        var(--bg);
+    color: var(--white);
+    font-family: Arial, Helvetica, sans-serif;
+    overflow-x: hidden;
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: .18;
-  background:
-    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px);
-  background-size: 50px 50px;
-  z-index: -1;
+/* =========================================================
+   BACKGROUND
+========================================================= */
+
+.background {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    overflow: hidden;
+    pointer-events: none;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+.aurora {
+    position: absolute;
+    width: 900px;
+    height: 900px;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, -50%);
+    background:
+        conic-gradient(
+            from 0deg,
+            rgba(255,45,149,.13),
+            rgba(255,138,50,.12),
+            rgba(255,228,94,.10),
+            rgba(73,229,141,.10),
+            rgba(54,229,255,.13),
+            rgba(77,124,255,.12),
+            rgba(139,92,255,.14),
+            rgba(198,92,255,.12),
+            rgba(255,45,149,.13)
+        );
+    filter: blur(90px);
+    border-radius: 50%;
+    animation: auroraRotate 22s linear infinite;
 }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
+@keyframes auroraRotate {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
 }
 
-button {
-  cursor: pointer;
+.grid {
+    position: absolute;
+    inset: 0;
+    opacity: .16;
+    background-image:
+        linear-gradient(rgba(255,255,255,.055) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.055) 1px, transparent 1px);
+    background-size: 55px 55px;
+    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
 }
 
-img,
-video,
-iframe {
-  max-width: 100%;
+.scanlines {
+    position: absolute;
+    inset: 0;
+    opacity: .025;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 3px,
+        #fff 4px
+    );
 }
 
-.container {
-  width: min(1180px, 92%);
-  margin: 0 auto;
+.particles {
+    position: absolute;
+    inset: 0;
 }
 
-/* =========================
+.particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: white;
+    opacity: .45;
+    box-shadow: 0 0 12px rgba(255,255,255,.8);
+    animation: floatParticle linear infinite;
+}
+
+@keyframes floatParticle {
+    from {
+        transform: translateY(110vh);
+    }
+    to {
+        transform: translateY(-10vh);
+    }
+}
+
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: rgba(5,6,10,.82);
-  backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--line);
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    padding: 18px 24px;
+    backdrop-filter: blur(18px);
+    background: rgba(5,5,9,.68);
+    border-bottom: 1px solid rgba(255,255,255,.07);
 }
 
 .nav {
-  min-height: 74px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
+    max-width: var(--max);
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
 }
 
 .logo {
-  font-family: Orbitron, sans-serif;
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: .14em;
-  white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: white;
 }
 
-.logo span {
-  color: var(--blue);
+.logo-mark {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    font-size: 21px;
+    font-weight: 900;
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--orange),
+            var(--yellow),
+            var(--green),
+            var(--cyan),
+            var(--blue),
+            var(--purple)
+        );
+    box-shadow:
+        0 0 25px rgba(255,45,149,.25),
+        0 0 35px rgba(54,229,255,.18);
+}
+
+.logo-text strong {
+    display: block;
+    font-size: 14px;
+    letter-spacing: 2px;
+}
+
+.logo-text span {
+    display: block;
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
 .nav-links {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  flex-wrap: wrap;
-  gap: 17px;
+    display: flex;
+    gap: 8px;
 }
 
-.nav-links a {
-  color: var(--muted);
-  font-size: .78rem;
-  font-weight: 700;
-  transition: .2s ease;
+.nav-links button {
+    border: 1px solid transparent;
+    background: transparent;
+    color: #cfcfda;
+    padding: 10px 15px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: .25s;
 }
 
-.nav-links a:hover {
-  color: #fff;
+.nav-links button:hover {
+    color: white;
+    background: rgba(255,255,255,.06);
+    border-color: rgba(255,255,255,.08);
 }
 
-/* =========================
+/* =========================================================
+   MAIN
+========================================================= */
+
+main {
+    position: relative;
+}
+
+.container {
+    width: min(var(--max), calc(100% - 40px));
+    margin: auto;
+}
+
+/* =========================================================
    HERO
-========================= */
+========================================================= */
 
 .hero {
-  min-height: 760px;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  width: 650px;
-  height: 650px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle,
-      rgba(139,108,255,.15),
-      rgba(54,217,255,.06) 35%,
-      transparent 70%);
-  filter: blur(20px);
-  pointer-events: none;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  padding: 100px 0;
-}
-
-.kicker {
-  display: inline-flex;
-  padding: 8px 14px;
-  border: 1px solid rgba(54,217,255,.30);
-  border-radius: 999px;
-  color: var(--blue);
-  background: rgba(54,217,255,.05);
-  font-size: .72rem;
-  font-weight: 800;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-
-.hero h1 {
-  margin: 25px 0;
-  font-family: Orbitron, sans-serif;
-  font-size: clamp(3.1rem, 9vw, 8rem);
-  line-height: .91;
-  letter-spacing: -.055em;
-}
-
-.gradient {
-  background: linear-gradient(
-    100deg,
-    #ffffff,
-    var(--blue),
-    var(--purple),
-    var(--pink)
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.hero p {
-  max-width: 780px;
-  margin: 0 auto 32px;
-  color: var(--muted);
-  font-size: clamp(1rem, 2vw, 1.2rem);
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 12px;
-}
-
-.btn {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 45px;
-  padding: 11px 18px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  color: #fff;
-  background: var(--panel);
-  font-weight: 800;
-  transition: .2s ease;
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255,255,255,.22);
-}
-
-.btn-primary {
-  color: #030409;
-  border: 0;
-  background: linear-gradient(
-    100deg,
-    var(--purple),
-    var(--blue)
-  );
-}
-
-/* =========================
-   SECTIONS
-========================= */
-
-section {
-  padding: 90px 0;
-  border-top: 1px solid rgba(255,255,255,.055);
-}
-
-.section-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 30px;
-  margin-bottom: 30px;
+    min-height: 100vh;
+    padding: 150px 0 90px;
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    align-items: center;
+    gap: 70px;
 }
 
 .eyebrow {
-  color: var(--blue);
-  font-size: .72rem;
-  font-weight: 800;
-  letter-spacing: .15em;
-  text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.045);
+    border: 1px solid rgba(255,255,255,.10);
+    color: #d8d8e1;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
 }
 
-.section-head h2 {
-  margin: 7px 0 0;
-  font-family: Orbitron, sans-serif;
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  line-height: 1.1;
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--yellow);
+    box-shadow: 0 0 14px var(--yellow);
+    animation: pulse 1.8s ease-in-out infinite;
 }
 
-.section-head p {
-  max-width: 620px;
-  margin: 0;
-  color: var(--muted);
+@keyframes pulse {
+    50% {
+        opacity: .4;
+        transform: scale(.7);
+    }
 }
 
-/* =========================
-   CARDS
-========================= */
+.hero h1 {
+    margin-top: 25px;
+    font-size: clamp(58px, 8vw, 112px);
+    line-height: .88;
+    letter-spacing: -6px;
+    font-weight: 1000;
+    background:
+        linear-gradient(
+            90deg,
+            var(--pink),
+            var(--orange),
+            var(--yellow),
+            var(--green),
+            var(--cyan),
+            var(--blue),
+            var(--purple),
+            var(--pink)
+        );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: spectrumFlow 8s linear infinite;
+}
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 16px;
+@keyframes spectrumFlow {
+    to {
+        background-position: 300% 0;
+    }
+}
+
+.hero-description {
+    max-width: 650px;
+    margin-top: 28px;
+    color: #b9b9c7;
+    font-size: 18px;
+    line-height: 1.75;
+}
+
+.status-banner {
+    margin-top: 30px;
+    display: inline-flex;
+    padding: 15px 20px;
+    border-radius: 16px;
+    background: rgba(255,228,94,.055);
+    border: 1px solid rgba(255,228,94,.22);
+    color: #fff4a8;
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+}
+
+.btn {
+    border: 0;
+    border-radius: 14px;
+    padding: 14px 20px;
+    cursor: pointer;
+    color: white;
+    font-weight: 800;
+    transition: .25s;
+}
+
+.btn-primary {
+    background:
+        linear-gradient(
+            90deg,
+            var(--pink),
+            var(--purple),
+            var(--blue)
+        );
+    box-shadow: 0 10px 35px rgba(139,92,255,.22);
+}
+
+.btn-secondary {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.10);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+/* =========================================================
+   TROPHY
+========================================================= */
+
+.trophy-area {
+    min-height: 500px;
+    display: grid;
+    place-items: center;
+    position: relative;
+}
+
+.trophy-glow {
+    position: absolute;
+    width: 330px;
+    height: 330px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,228,94,.23),
+            rgba(255,45,149,.10),
+            transparent 70%
+        );
+    filter: blur(20px);
+}
+
+.trophy {
+    position: relative;
+    width: 260px;
+    height: 350px;
+    transform-style: preserve-3d;
+    transition: transform .15s ease-out;
+}
+
+.cup {
+    position: absolute;
+    width: 170px;
+    height: 145px;
+    left: 45px;
+    top: 40px;
+    border-radius: 25px 25px 75px 75px;
+    background:
+        linear-gradient(
+            135deg,
+            #fff7a8,
+            #ffc85b,
+            #ff8a32,
+            #ffcf5c
+        );
+    box-shadow:
+        0 0 25px rgba(255,196,70,.45),
+        inset 8px 8px 20px rgba(255,255,255,.45),
+        inset -15px -20px 25px rgba(165,76,0,.25);
+}
+
+.cup:before,
+.cup:after {
+    content: "";
+    position: absolute;
+    top: 25px;
+    width: 65px;
+    height: 90px;
+    border: 14px solid #ffc55b;
+}
+
+.cup:before {
+    left: -50px;
+    border-right: 0;
+    border-radius: 50px 0 0 60px;
+}
+
+.cup:after {
+    right: -50px;
+    border-left: 0;
+    border-radius: 0 50px 60px 0;
+}
+
+.star {
+    position: absolute;
+    left: 50%;
+    top: 84px;
+    transform: translateX(-50%);
+    font-size: 55px;
+    color: white;
+    text-shadow:
+        0 0 8px white,
+        0 0 20px var(--yellow),
+        0 0 40px var(--orange);
+    animation: starPulse 2s ease-in-out infinite;
+}
+
+@keyframes starPulse {
+    50% {
+        transform: translateX(-50%) scale(1.12);
+    }
+}
+
+.stem {
+    position: absolute;
+    width: 45px;
+    height: 80px;
+    left: 108px;
+    top: 175px;
+    background: linear-gradient(#ffcf62, #ff8b32);
+}
+
+.base {
+    position: absolute;
+    left: 60px;
+    bottom: 10px;
+    width: 140px;
+    height: 65px;
+    border-radius: 12px;
+    background:
+        linear-gradient(
+            145deg,
+            #fff0a0,
+            #e8a62f,
+            #9e4c13
+        );
+    box-shadow: 0 15px 40px rgba(255,138,50,.2);
+}
+
+.base:before {
+    content: "SPECTRUM";
+    position: absolute;
+    width: 100%;
+    text-align: center;
+    top: 22px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,.85);
+}
+
+.orbit {
+    position: absolute;
+    width: 380px;
+    height: 150px;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 50%;
+    transform: rotate(-20deg);
+    animation: orbit 8s linear infinite;
+}
+
+.orbit.two {
+    width: 430px;
+    height: 190px;
+    transform: rotate(25deg);
+    animation-duration: 11s;
+}
+
+@keyframes orbit {
+    to {
+        transform: rotate(340deg);
+    }
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+section {
+    padding: 100px 0;
+}
+
+.section-heading {
+    max-width: 750px;
+    margin-bottom: 50px;
+}
+
+.section-heading span {
+    color: var(--cyan);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.section-heading h2 {
+    margin-top: 12px;
+    font-size: clamp(38px, 5vw, 65px);
+    letter-spacing: -2px;
+}
+
+.section-heading p {
+    margin-top: 18px;
+    color: var(--muted);
+    line-height: 1.7;
+}
+
+/* =========================================================
+   PLANNING CARDS
+========================================================= */
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
 }
 
 .card {
-  padding: 23px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background:
-    linear-gradient(
-      145deg,
-      rgba(17,21,34,.94),
-      rgba(9,11,18,.94)
-    );
-  box-shadow: var(--shadow);
+    position: relative;
+    padding: 28px;
+    min-height: 230px;
+    border-radius: var(--radius);
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,.08);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+        opacity .7s ease,
+        transform .7s ease,
+        border-color .3s ease;
+}
+
+.card.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(255,255,255,.18);
+}
+
+.card:after {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    right: -60px;
+    bottom: -60px;
+    border-radius: 50%;
+    background: var(--card-color);
+    filter: blur(50px);
+    opacity: .12;
+}
+
+.card-number {
+    color: var(--card-color);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 2px;
 }
 
 .card h3 {
-  margin: 0 0 9px;
-  font-family: Orbitron, sans-serif;
-  font-size: 1rem;
+    margin-top: 25px;
+    font-size: 23px;
 }
 
 .card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: .9rem;
+    margin-top: 12px;
+    color: var(--muted);
+    line-height: 1.65;
 }
 
-.icon {
-  width: 46px;
-  height: 46px;
-  display: grid;
-  place-items: center;
-  margin-bottom: 17px;
-  border-radius: 13px;
-  color: var(--blue);
-  background: rgba(54,217,255,.07);
-  border: 1px solid rgba(54,217,255,.18);
-  font-size: 1.25rem;
+.card-status {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 6px 9px;
+    border-radius: 8px;
+    background: rgba(255,255,255,.05);
+    color: #d8d8df;
+    font-size: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-/* =========================
-   CATEGORIES
-========================= */
+/* =========================================================
+   ROADMAP
+========================================================= */
 
-.categories {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 10px;
+.roadmap {
+    display: grid;
+    gap: 14px;
 }
 
-.category {
-  padding: 15px;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  background: var(--panel);
-  color: #dce3f3;
-  font-size: .82rem;
-  font-weight: 700;
-  transition: .2s;
+.roadmap-item {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 25px;
+    background: rgba(255,255,255,.035);
+    border: 1px solid rgba(255,255,255,.07);
+    border-radius: 18px;
 }
 
-.category:hover {
-  border-color: rgba(54,217,255,.35);
-  transform: translateY(-2px);
+.roadmap-number {
+    font-size: 12px;
+    font-weight: 900;
+    color: var(--cyan);
+    letter-spacing: 2px;
 }
 
-/* =========================
-   TIMELINE
-========================= */
-
-.timeline {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 15px;
+.roadmap-title {
+    font-weight: 900;
+    font-size: 18px;
 }
 
-.timeline-date {
-  margin-bottom: 10px;
-  color: var(--blue);
-  font-family: Orbitron, sans-serif;
-  font-weight: 800;
-  font-size: 1rem;
+.roadmap-description {
+    color: var(--muted);
+    margin-top: 5px;
+    font-size: 13px;
 }
 
-.timeline-title {
-  font-weight: 800;
-  margin-bottom: 6px;
+.roadmap-status {
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    background: rgba(255,228,94,.08);
+    border: 1px solid rgba(255,228,94,.18);
+    color: #fff0a0;
 }
 
-.timeline p {
-  margin: 0;
-  color: var(--muted);
-  font-size: .84rem;
+/* =========================================================
+   VISION
+========================================================= */
+
+.vision {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
 }
 
-/* =========================
-   COUNTDOWN
-========================= */
-
-.countdown {
-  display: grid;
-  grid-template-columns: repeat(4,1fr);
-  gap: 10px;
-  margin-top: 25px;
+.vision-box {
+    padding: 35px;
+    border-radius: var(--radius);
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,.08);
 }
 
-.count-box {
-  padding: 20px 10px;
-  text-align: center;
-  border: 1px solid var(--line);
-  border-radius: 13px;
-  background: rgba(255,255,255,.025);
+.vision-box h3 {
+    font-size: 28px;
 }
 
-.count-number {
-  display: block;
-  font-family: Orbitron, sans-serif;
-  font-size: clamp(1.5rem,4vw,2.7rem);
-  font-weight: 800;
+.vision-box p {
+    margin-top: 15px;
+    color: var(--muted);
+    line-height: 1.7;
 }
 
-.count-label {
-  color: var(--muted);
-  font-size: .65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: .12em;
+.vision-list {
+    margin-top: 25px;
+    display: grid;
+    gap: 12px;
 }
 
-/* =========================
-   LIVE
-========================= */
-
-.live-layout {
-  display: grid;
-  grid-template-columns: 1.55fr .75fr;
-  gap: 16px;
+.vision-list div {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    color: #d9d9e2;
 }
 
-.player {
-  position: relative;
-  min-height: 420px;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: #010205;
-  box-shadow: var(--shadow);
+.vision-list i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background:
+        linear-gradient(
+            135deg,
+            var(--pink),
+            var(--cyan)
+        );
+    box-shadow: 0 0 10px rgba(54,229,255,.45);
 }
 
-.player video,
-.player iframe {
-  width: 100%;
-  height: 100%;
-  min-height: 420px;
-  border: 0;
-  object-fit: cover;
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta {
+    position: relative;
+    padding: 75px 35px;
+    border-radius: 32px;
+    text-align: center;
+    overflow: hidden;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,45,149,.09),
+            rgba(54,229,255,.07),
+            rgba(139,92,255,.10)
+        );
+    border: 1px solid rgba(255,255,255,.10);
 }
 
-.player-placeholder {
-  max-width: 500px;
-  padding: 35px;
-  text-align: center;
+.cta h2 {
+    font-size: clamp(38px, 6vw, 70px);
+    letter-spacing: -3px;
 }
 
-.player-placeholder h3 {
-  margin: 12px 0 5px;
-  font-family: Orbitron, sans-serif;
+.cta p {
+    max-width: 650px;
+    margin: 18px auto 0;
+    color: var(--muted);
+    line-height: 1.7;
 }
 
-.player-placeholder p {
-  color: var(--muted);
-  font-size: .9rem;
-}
-
-.live-dot {
-  width: 11px;
-  height: 11px;
-  display: inline-block;
-  margin-right: 7px;
-  border-radius: 50%;
-  background: var(--red);
-  box-shadow: 0 0 20px var(--red);
-}
-
-.status-badge {
-  display: inline-flex;
-  padding: 6px 10px;
-  border-radius: 999px;
-  color: var(--muted);
-  background: rgba(255,255,255,.04);
-  border: 1px solid var(--line);
-  font-size: .65rem;
-  font-weight: 800;
-}
-
-/* =========================
-   CHAT
-========================= */
-
-.chat {
-  min-height: 420px;
-  display: flex;
-  flex-direction: column;
-}
-
-.chat-log {
-  flex: 1;
-  min-height: 250px;
-  max-height: 330px;
-  overflow-y: auto;
-  margin: 10px 0;
-  padding-right: 5px;
-}
-
-.chat-message {
-  padding: 9px 0;
-  border-bottom: 1px solid rgba(255,255,255,.05);
-  font-size: .82rem;
-}
-
-.chat-message strong {
-  color: var(--blue);
-}
-
-.chat-form {
-  display: flex;
-  gap: 8px;
-  padding-top: 12px;
-  border-top: 1px solid var(--line);
-}
-
-.chat-form input {
-  min-width: 0;
-  flex: 1;
-  padding: 10px;
-  color: #fff;
-  background: #080a10;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  outline: none;
-}
-
-.chat-form button {
-  padding: 0 15px;
-  color: #05060a;
-  background: var(--blue);
-  border: 0;
-  border-radius: 9px;
-  font-weight: 800;
-}
-
-/* =========================
-   VOTING
-========================= */
-
-.voting-status {
-  padding: 17px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 13px;
-  background: rgba(255,255,255,.025);
-}
-
-.voting-status strong {
-  color: var(--blue);
-}
-
-.vote-list {
-  display: grid;
-  gap: 12px;
-}
-
-.vote-card {
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: var(--panel);
-}
-
-.vote-card-top {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin-bottom: 10px;
-}
-
-.vote-name {
-  font-weight: 800;
-}
-
-.vote-category {
-  color: var(--muted);
-  font-size: .72rem;
-}
-
-.vote-count {
-  color: var(--blue);
-  font-family: Orbitron, sans-serif;
-  font-size: .75rem;
-  font-weight: 800;
-}
-
-.vote-button {
-  width: 100%;
-  padding: 10px;
-  color: #fff;
-  background: transparent;
-  border: 1px solid rgba(139,108,255,.4);
-  border-radius: 9px;
-  font-weight: 800;
-}
-
-.vote-button:hover {
-  background: rgba(139,108,255,.12);
-}
-
-.vote-button:disabled {
-  opacity: .45;
-  cursor: not-allowed;
-}
-
-/* =========================
-   WINNERS
-========================= */
-
-.winners {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 16px;
-}
-
-.winner {
-  padding: 25px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: linear-gradient(
-    145deg,
-    rgba(139,108,255,.10),
-    rgba(54,217,255,.03)
-  );
-}
-
-.winner-year {
-  color: var(--blue);
-  font-family: Orbitron, sans-serif;
-  font-size: .7rem;
-  font-weight: 800;
-}
-
-.winner-award {
-  margin: 10px 0 6px;
-  font-family: Orbitron, sans-serif;
-  font-size: 1rem;
-  font-weight: 800;
-}
-
-.winner-name {
-  font-size: 1.25rem;
-  font-weight: 800;
-}
-
-.winner-placeholder {
-  color: var(--muted);
-  font-size: .86rem;
-}
-
-/* =========================
-   FORMS
-========================= */
-
-.form-card {
-  max-width: 850px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-}
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-
-.field.full {
-  grid-column: 1 / -1;
-}
-
-.field label {
-  color: #cbd3e4;
-  font-size: .74rem;
-  font-weight: 800;
-}
-
-.field input,
-.field textarea,
-.field select {
-  width: 100%;
-  padding: 12px;
-  color: #fff;
-  background: #080a10;
-  border: 1px solid var(--line);
-  border-radius: 9px;
-  outline: none;
-}
-
-.field input:focus,
-.field textarea:focus,
-.field select:focus {
-  border-color: rgba(54,217,255,.5);
-}
-
-.field textarea {
-  min-height: 130px;
-  resize: vertical;
-}
-
-.form-status {
-  margin-top: 10px;
-  color: var(--muted);
-  font-size: .82rem;
-}
-
-.notice {
-  padding: 18px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(255,209,102,.22);
-  border-radius: 13px;
-  background: rgba(255,209,102,.055);
-  color: #eee2b9;
-}
-
-.success {
-  color: var(--green);
-}
-
-.error {
-  color: var(--red);
-}
-
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 footer {
-  padding: 45px 0;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
-  font-size: .78rem;
+    margin-top: 100px;
+    padding: 35px 0;
+    border-top: 1px solid rgba(255,255,255,.07);
 }
 
-.footer-grid {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 25px;
+.footer-inner {
+    max-width: var(--max);
+    margin: auto;
+    width: min(var(--max), calc(100% - 40px));
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    color: #777784;
+    font-size: 12px;
 }
 
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width: 950px) {
-
-  .grid,
-  .winners {
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  .categories {
-    grid-template-columns: repeat(3,1fr);
-  }
-
-  .timeline {
-    grid-template-columns: repeat(2,1fr);
-  }
-
-  .live-layout {
-    grid-template-columns: 1fr;
-  }
-
+.footer-status {
+    color: #fff0a0;
 }
 
-@media(max-width: 650px) {
+/* =========================================================
+   MODAL
+========================================================= */
 
-  .nav {
-    align-items: flex-start;
-    padding: 13px 0;
-  }
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: none;
+    place-items: center;
+    padding: 20px;
+    background: rgba(0,0,0,.72);
+    backdrop-filter: blur(15px);
+}
 
-  .nav-links {
-    gap: 9px;
-  }
+.modal.active {
+    display: grid;
+}
 
-  .nav-links a {
-    font-size: .68rem;
-  }
+.modal-box {
+    width: min(650px, 100%);
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 35px;
+    border-radius: 25px;
+    background: #0d0d15;
+    border: 1px solid rgba(255,255,255,.12);
+    box-shadow: 0 30px 100px rgba(0,0,0,.5);
+    animation: modalIn .3s ease;
+}
 
-  .hero {
-    min-height: 650px;
-  }
+@keyframes modalIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(.97);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
 
-  section {
-    padding: 65px 0;
-  }
+.modal-close {
+    float: right;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 10px;
+    background: rgba(255,255,255,.06);
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+}
 
-  .section-head {
-    display: block;
-  }
-
-  .section-head p {
+.modal-box h2 {
     margin-top: 15px;
-  }
+    font-size: 34px;
+}
 
-  .grid,
-  .winners,
-  .timeline,
-  .categories,
-  .form-grid,
-  .countdown {
-    grid-template-columns: 1fr;
-  }
+.modal-box p {
+    margin-top: 18px;
+    color: var(--muted);
+    line-height: 1.75;
+}
 
-  .field.full {
-    grid-column: auto;
-  }
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-  .player,
-  .player video,
-  .player iframe {
-    min-height: 260px;
-  }
+@media (max-width: 950px) {
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding-top: 140px;
+    }
+
+    .trophy-area {
+        min-height: 420px;
+    }
+
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .vision {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+
+    header {
+        padding: 13px 15px;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .container {
+        width: min(100% - 28px, var(--max));
+    }
+
+    .hero {
+        padding-top: 120px;
+        gap: 35px;
+    }
+
+    .hero h1 {
+        letter-spacing: -4px;
+    }
+
+    .hero-description {
+        font-size: 16px;
+    }
+
+    .trophy-area {
+        transform: scale(.78);
+        min-height: 350px;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .roadmap-item {
+        grid-template-columns: 55px 1fr;
+    }
+
+    .roadmap-status {
+        grid-column: 2;
+        justify-self: start;
+    }
+
+    section {
+        padding: 75px 0;
+    }
+
+    .footer-inner {
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<header class="header">
-  <div class="container nav">
+<div class="background">
+    <div class="aurora"></div>
+    <div class="grid"></div>
+    <div class="scanlines"></div>
+    <div class="particles" id="particles"></div>
+</div>
 
-    <a class="logo" href="#home">
-      SPECTRUM <span>AWARDS</span>
-    </a>
+<!-- =======================================================
+     HEADER
+======================================================= -->
 
-    <nav class="nav-links">
-      <a href="#about">What It Is</a>
-      <a href="#vision">Vision</a>
-      <a href="#categories">Categories</a>
-      <a href="#timeline">2030</a>
-      <a href="#voting">Voting</a>
-      <a href="#live">Live</a>
-      <a href="#winners">Winners</a>
-      <a href="#nominate">Nominate</a>
+<header>
+    <nav class="nav">
+
+        <a href="#" class="logo">
+
+            <div class="logo-mark">S</div>
+
+            <div class="logo-text">
+                <strong>SPECTRUM AWARDS</strong>
+                <span>CrowRules Entertainment</span>
+            </div>
+
+        </a>
+
+        <div class="nav-links">
+            <button onclick="openModal('about')">About</button>
+            <button onclick="scrollToSection('planning')">Planning</button>
+            <button onclick="scrollToSection('vision')">Vision</button>
+        </div>
+
     </nav>
-
-  </div>
 </header>
-
 
 <main>
 
-<!-- =========================
+<!-- =======================================================
      HERO
-========================= -->
+======================================================= -->
 
-<section class="hero" id="home">
+<section class="hero container">
 
-  <div class="container hero-content">
+    <div>
 
-    <span class="kicker">
-      The Inaugural Spectrum Awards • December 31, 2030
-    </span>
+        <div class="eyebrow">
+            <span class="status-dot"></span>
+            Currently in planning
+        </div>
 
-    <h1>
-      CELEBRATE THE<br>
-      <span class="gradient">FULL SPECTRUM.</span>
-    </h1>
+        <h1>
+            SPECTRUM<br>
+            AWARDS
+        </h1>
 
-    <p>
-      An independent celebration of entertainment, creators,
-      performers, storytellers, shows, communities and the people
-      who make something worth remembering.
-    </p>
+        <p class="hero-description">
+            A new awards experience being planned by CrowRules Entertainment —
+            created to celebrate the people, productions, performances,
+            creators and stories that make entertainment extraordinary.
+        </p>
 
-    <div class="actions">
+        <div class="status-banner">
+            ✦ PROJECT STATUS: IN PLANNING
+        </div>
 
-      <a class="btn btn-primary" href="#timeline">
-        Explore 2030
-      </a>
+        <div class="hero-buttons">
 
-      <a class="btn" href="#categories">
-        Award Categories
-      </a>
+            <button
+                class="btn btn-primary"
+                onclick="scrollToSection('planning')">
+                Explore the Planning
+            </button>
 
-      <a class="btn" href="#live">
-        Watch Live
-      </a>
+            <button
+                class="btn btn-secondary"
+                onclick="scrollToSection('vision')">
+                Our Vision
+            </button>
 
-    </div>
-
-    <div class="countdown">
-
-      <div class="count-box">
-        <span class="count-number" id="days">---</span>
-        <span class="count-label">Days</span>
-      </div>
-
-      <div class="count-box">
-        <span class="count-number" id="hours">--</span>
-        <span class="count-label">Hours</span>
-      </div>
-
-      <div class="count-box">
-        <span class="count-number" id="minutes">--</span>
-        <span class="count-label">Minutes</span>
-      </div>
-
-      <div class="count-box">
-        <span class="count-number" id="seconds">--</span>
-        <span class="count-label">Seconds</span>
-      </div>
+        </div>
 
     </div>
 
-  </div>
+    <div class="trophy-area" id="trophyArea">
+
+        <div class="trophy-glow"></div>
+
+        <div class="orbit"></div>
+        <div class="orbit two"></div>
+
+        <div class="trophy" id="trophy">
+
+            <div class="cup"></div>
+
+            <div class="star">★</div>
+
+            <div class="stem"></div>
+
+            <div class="base"></div>
+
+        </div>
+
+    </div>
 
 </section>
 
+<!-- =======================================================
+     PLANNING
+======================================================= -->
 
-<!-- =========================
-     WHAT IT IS
-========================= -->
+<section id="planning">
 
-<section id="about">
+    <div class="container">
 
-  <div class="container">
+        <div class="section-heading">
 
-    <div class="section-head">
+            <span>Where We Are</span>
 
-      <div>
-        <span class="eyebrow">What It Is</span>
-        <h2>One night. The whole spectrum.</h2>
-      </div>
+            <h2>
+                Planning the Spectrum Awards
+            </h2>
 
-      <p>
-        Spectrum Awards is designed to bring different parts of
-        entertainment and creator culture together in one celebration.
-      </p>
+            <p>
+                The Spectrum Awards are currently in the planning stage.
+                The goal is to build something meaningful rather than rush
+                toward a launch. Every part of the experience will be
+                developed with purpose.
+            </p>
+
+        </div>
+
+        <div class="cards">
+
+            <article
+                class="card"
+                style="--card-color: var(--pink)">
+
+                <div class="card-number">01 / VISION</div>
+
+                <h3>The Vision</h3>
+
+                <p>
+                    Defining what the Spectrum Awards should represent
+                    and what makes the experience different.
+                </p>
+
+                <span class="card-status">
+                    Current Planning
+                </span>
+
+            </article>
+
+            <article
+                class="card"
+                style="--card-color: var(--orange)">
+
+                <div class="card-number">02 / CATEGORIES</div>
+
+                <h3>Award Categories</h3>
+
+                <p>
+                    Planning categories across television, film, music,
+                    podcasting, gaming, digital media and independent
+                    entertainment.
+                </p>
+
+                <span class="card-status">
+                    In Planning
+                </span>
+
+            </article>
+
+            <article
+                class="card"
+                style="--card-color: var(--yellow)">
+
+                <div class="card-number">03 / NOMINATIONS</div>
+
+                <h3>Nominations</h3>
+
+                <p>
+                    Designing a nomination system that gives creators,
+                    productions and entertainment projects a chance
+                    to be recognized.
+                </p>
+
+                <span class="card-status">
+                    Future Phase
+                </span>
+
+            </article>
+
+            <article
+                class="card"
+                style="--card-color: var(--green)">
+
+                <div class="card-number">04 / VOTING</div>
+
+                <h3>Voting</h3>
+
+                <p>
+                    Exploring a fair and transparent voting experience
+                    with audience participation and appropriate
+                    safeguards.
+                </p>
+
+                <span class="card-status">
+                    Future Phase
+                </span>
+
+            </article>
+
+            <article
+                class="card"
+                style="--card-color: var(--cyan)">
+
+                <div class="card-number">05 / AWARDS NIGHT</div>
+
+                <h3>The Awards Experience</h3>
+
+                <p>
+                    Planning the eventual broadcast, presentation,
+                    performances, nominees, winners and live audience
+                    experience.
+                </p>
+
+                <span class="card-status">
+                    Future Phase
+                </span>
+
+            </article>
+
+            <article
+                class="card"
+                style="--card-color: var(--purple)">
+
+                <div class="card-number">06 / THE FUTURE</div>
+
+                <h3>Building Something Lasting</h3>
+
+                <p>
+                    The long-term goal is to create an annual entertainment
+                    celebration that can continue evolving with creators
+                    and audiences.
+                </p>
+
+                <span class="card-status">
+                    Long-Term Vision
+                </span>
+
+            </article>
+
+        </div>
 
     </div>
-
-
-    <div class="grid">
-
-      <article class="card">
-
-        <div class="icon">★</div>
-
-        <h3>Recognition</h3>
-
-        <p>
-          Celebrate outstanding creators, performances, shows,
-          stories and entertainment from across the spectrum.
-        </p>
-
-      </article>
-
-
-      <article class="card">
-
-        <div class="icon">◈</div>
-
-        <h3>Community Driven</h3>
-
-        <p>
-          The audience participates through nominations,
-          preliminary voting and live voting during the event.
-        </p>
-
-      </article>
-
-
-      <article class="card">
-
-        <div class="icon">◉</div>
-
-        <h3>A Live Event</h3>
-
-        <p>
-          The inaugural event will feature a live broadcast,
-          live chat, voting and winner announcements.
-        </p>
-
-      </article>
-
-    </div>
-
-  </div>
 
 </section>
 
+<!-- =======================================================
+     ROADMAP
+======================================================= -->
 
-<!-- =========================
+<section>
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>The Road Ahead</span>
+
+            <h2>
+                From Idea to Awards Night
+            </h2>
+
+            <p>
+                The Spectrum Awards will develop through multiple stages.
+                There is no rush — the focus is on building the foundation
+                correctly.
+            </p>
+
+        </div>
+
+        <div class="roadmap">
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">01</div>
+
+                <div>
+                    <div class="roadmap-title">
+                        Planning
+                    </div>
+
+                    <div class="roadmap-description">
+                        Concept development, identity, categories,
+                        rules and overall vision.
+                    </div>
+                </div>
+
+                <div class="roadmap-status">
+                    CURRENT
+                </div>
+
+            </div>
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">02</div>
+
+                <div>
+                    <div class="roadmap-title">
+                        Development
+                    </div>
+
+                    <div class="roadmap-description">
+                        Website, member experience, nomination systems,
+                        voting systems and production infrastructure.
+                    </div>
+                </div>
+
+                <div class="roadmap-status">
+                    PLANNED
+                </div>
+
+            </div>
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">03</div>
+
+                <div>
+                    <div class="roadmap-title">
+                        Nominations
+                    </div>
+
+                    <div class="roadmap-description">
+                        Opening the nomination process and establishing
+                        the first official nominee pool.
+                    </div>
+                </div>
+
+                <div class="roadmap-status">
+                    FUTURE
+                </div>
+
+            </div>
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">04</div>
+
+                <div>
+                    <div class="roadmap-title">
+                        Voting
+                    </div>
+
+                    <div class="roadmap-description">
+                        Preliminary and audience voting phases leading
+                        toward the eventual awards presentation.
+                    </div>
+                </div>
+
+                <div class="roadmap-status">
+                    FUTURE
+                </div>
+
+            </div>
+
+            <div class="roadmap-item">
+
+                <div class="roadmap-number">05</div>
+
+                <div>
+                    <div class="roadmap-title">
+                        Awards Night
+                    </div>
+
+                    <div class="roadmap-description">
+                        The completed Spectrum Awards experience —
+                        celebrating nominees, winners, creators and fans.
+                    </div>
+                </div>
+
+                <div class="roadmap-status">
+                    FUTURE
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =======================================================
      VISION
-========================= -->
+======================================================= -->
 
 <section id="vision">
 
-  <div class="container">
+    <div class="container">
 
-    <div class="section-head">
+        <div class="section-heading">
 
-      <div>
-        <span class="eyebrow">The Vision</span>
-        <h2>Entertainment without borders.</h2>
-      </div>
+            <span>The Bigger Picture</span>
 
-      <p>
-        Spectrum Awards is designed to grow with entertainment itself.
-      </p>
+            <h2>
+                More Than an Awards Show
+            </h2>
+
+            <p>
+                Spectrum Awards is being imagined as an entire entertainment
+                recognition platform — not simply a trophy ceremony.
+            </p>
+
+        </div>
+
+        <div class="vision">
+
+            <div class="vision-box">
+
+                <h3>
+                    A Spectrum of Entertainment
+                </h3>
+
+                <p>
+                    The awards are being designed to recognize a broad
+                    range of entertainment and creative work.
+                </p>
+
+                <div class="vision-list">
+
+                    <div>
+                        <i></i>
+                        Television & Film
+                    </div>
+
+                    <div>
+                        <i></i>
+                        Music & Live Performance
+                    </div>
+
+                    <div>
+                        <i></i>
+                        Podcasting & Audio
+                    </div>
+
+                    <div>
+                        <i></i>
+                        Gaming & Digital Media
+                    </div>
+
+                    <div>
+                        <i></i>
+                        Independent Creators
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="vision-box">
+
+                <h3>
+                    Built for the Future
+                </h3>
+
+                <p>
+                    The eventual experience can combine a traditional
+                    awards presentation with modern digital participation.
+                </p>
+
+                <div class="vision-list">
+
+                    <div>
+                        <i></i>
+                        Digital-first experience
+                    </div>
+
+                    <div>
+                        <i></i>
+                        Audience participation
+                    </div>
+
+                    <div>
+                        <i></i>
+                        Creator recognition
+                    </div>
+
+                    <div>
+                        <i></i>
+                        Live awards-night interaction
+                    </div>
+
+                    <div>
+                        <i></i>
+                        Annual entertainment celebration
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
-
-
-    <div class="grid">
-
-      <article class="card">
-
-        <h3>Everyone Has A Stage</h3>
-
-        <p>
-          Recognize established names while creating room for
-          independent and emerging creators.
-        </p>
-
-      </article>
-
-
-      <article class="card">
-
-        <h3>Every Format</h3>
-
-        <p>
-          Television, movies, streaming, gaming, music, podcasts,
-          writing, online video and new forms of entertainment.
-        </p>
-
-      </article>
-
-
-      <article class="card">
-
-        <h3>Built To Grow</h3>
-
-        <p>
-          Categories and awards can evolve as new platforms,
-          communities and creative formats emerge.
-        </p>
-
-      </article>
-
-    </div>
-
-  </div>
 
 </section>
 
+<!-- =======================================================
+     FINAL CTA
+======================================================= -->
 
-<!-- =========================
-     CATEGORIES
-========================= -->
+<section>
 
-<section id="categories">
+    <div class="container">
 
-  <div class="container">
+        <div class="cta">
 
-    <div class="section-head">
+            <h2>
+                The Spectrum Begins Here.
+            </h2>
 
-      <div>
-        <span class="eyebrow">The Awards</span>
-        <h2>Categories</h2>
-      </div>
+            <p>
+                An idea becomes an experience through planning,
+                creativity and persistence. The Spectrum Awards are
+                currently being planned as part of the growing
+                CrowRules Entertainment universe.
+            </p>
 
-      <p>
-        The initial Spectrum Awards category lineup.
-      </p>
-
-    </div>
-
-    <div class="categories" id="categoryList">
-      <!-- Loaded from Supabase -->
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     TIMELINE
-========================= -->
-
-<section id="timeline">
-
-  <div class="container">
-
-    <div class="section-head">
-
-      <div>
-        <span class="eyebrow">The 2030 Season</span>
-        <h2>The road to December 31.</h2>
-      </div>
-
-    </div>
-
-
-    <div class="timeline">
-
-      <article class="card">
-
-        <div class="timeline-date">
-          JAN 01, 2030
-        </div>
-
-        <div class="timeline-title">
-          Nominations Begin
-        </div>
-
-        <p>
-          The public nomination window opens for the inaugural
-          Spectrum Awards.
-        </p>
-
-      </article>
-
-
-      <article class="card">
-
-        <div class="timeline-date">
-          SUMMER 2030
-        </div>
-
-        <div class="timeline-title">
-          Preliminary Voting
-        </div>
-
-        <p>
-          Community voting helps determine the finalists in each
-          category.
-        </p>
-
-      </article>
-
-
-      <article class="card">
-
-        <div class="timeline-date">
-          DEC 31, 2030
-        </div>
-
-        <div class="timeline-title">
-          Live Voting
-        </div>
-
-        <p>
-          Final live voting takes place during the Spectrum Awards
-          broadcast.
-        </p>
-
-      </article>
-
-
-      <article class="card">
-
-        <div class="timeline-date">
-          DEC 31, 2030
-        </div>
-
-        <div class="timeline-title">
-          First Event
-        </div>
-
-        <p>
-          The inaugural Spectrum Awards goes live and the first
-          winners are revealed.
-        </p>
-
-      </article>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     VOTING
-========================= -->
-
-<section id="voting">
-
-  <div class="container">
-
-    <div class="section-head">
-
-      <div>
-        <span class="eyebrow">Community Voting</span>
-        <h2>Preliminary & Live Voting</h2>
-      </div>
-
-      <p>
-        Voting will be controlled by the Spectrum Awards season
-        status in Supabase.
-      </p>
-
-    </div>
-
-
-    <div class="voting-status">
-
-      <strong id="votingStatus">
-        Voting is currently closed.
-      </strong>
-
-      <br>
-
-      <span id="votingDescription">
-        Preliminary voting is scheduled for Summer 2030.
-        Live voting will take place during the December 31, 2030 event.
-      </span>
-
-    </div>
-
-
-    <div class="vote-list" id="voteList">
-
-      <div class="card">
-
-        <h3>No Voting Currently Open</h3>
-
-        <p>
-          Nominees and voting options will appear here when the
-          appropriate voting window opens.
-        </p>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     LIVE SHOW
-========================= -->
-
-<section id="live">
-
-  <div class="container">
-
-    <div class="section-head">
-
-      <div>
-        <span class="eyebrow">December 31, 2030</span>
-        <h2>Watch the Spectrum Awards Live.</h2>
-      </div>
-
-      <span class="status-badge" id="liveStatus">
-        OFFLINE • EVENT PENDING
-      </span>
-
-    </div>
-
-
-    <div class="live-layout">
-
-      <div class="player" id="player">
-
-        <div class="player-placeholder">
-
-          <span class="live-dot"></span>
-
-          <strong>LIVE PLAYER</strong>
-
-          <h3>
-            The Spectrum Awards
-          </h3>
-
-          <p>
-            The live broadcast player will activate when the
-            inaugural event begins.
-          </p>
-
-          <button
-            class="btn btn-primary"
-            id="loadStream"
-            type="button"
-          >
-            Load Broadcast
-          </button>
+            <div class="status-banner">
+                ✦ SPECTRUM AWARDS — IN PLANNING
+            </div>
 
         </div>
 
-      </div>
-
-
-      <aside class="card chat">
-
-        <h3>Live Chat</h3>
-
-        <div
-          class="chat-log"
-          id="chatLog"
-        >
-
-          <div class="chat-message">
-            <strong>SpectrumBot:</strong>
-            Welcome to the Spectrum Awards chat.
-          </div>
-
-          <div class="chat-message">
-            <strong>SpectrumBot:</strong>
-            Live chat will open with the event.
-          </div>
-
-        </div>
-
-
-        <form
-          class="chat-form"
-          id="chatForm"
-        >
-
-          <input
-            id="chatInput"
-            maxlength="180"
-            autocomplete="off"
-            placeholder="Say something..."
-          >
-
-          <button type="submit">
-            Send
-          </button>
-
-        </form>
-
-      </aside>
-
     </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     WINNERS
-========================= -->
-
-<section id="winners">
-
-  <div class="container">
-
-    <div class="section-head">
-
-      <div>
-        <span class="eyebrow">Spectrum Awards Hall of Fame</span>
-        <h2>Winners</h2>
-      </div>
-
-      <p>
-        The permanent home of Spectrum Awards winners.
-      </p>
-
-    </div>
-
-
-    <div
-      class="winners"
-      id="winnerGrid"
-    >
-
-      <article class="winner">
-
-        <div class="winner-year">
-          2030
-        </div>
-
-        <div class="winner-award">
-          INAUGURAL AWARDS
-        </div>
-
-        <div class="winner-name">
-          Winners Coming December 31
-        </div>
-
-        <p class="winner-placeholder">
-          The first Spectrum Awards winners will be permanently
-          archived here after the inaugural event.
-        </p>
-
-      </article>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     NOMINATIONS
-========================= -->
-
-<section id="nominate">
-
-  <div class="container">
-
-    <div class="section-head">
-
-      <div>
-        <span class="eyebrow">Nominations</span>
-        <h2>Nominate for 2030.</h2>
-      </div>
-
-      <p>
-        Nominations officially begin January 1, 2030.
-      </p>
-
-    </div>
-
-
-    <div class="notice">
-
-      <strong>
-        2030 nomination window:
-      </strong>
-
-      January 1, 2030 through the official nomination deadline.
-
-      <br><br>
-
-      Before the nomination window opens, this form remains
-      disabled. The database controls the official season state.
-
-    </div>
-
-
-    <form
-      class="card form-card form-grid"
-      id="nominationForm"
-    >
-
-      <div class="field">
-
-        <label for="nominee">
-          Nominee / Work
-        </label>
-
-        <input
-          id="nominee"
-          required
-          placeholder="Creator, show, movie, song, etc."
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="categorySelect">
-          Category
-        </label>
-
-        <select
-          id="categorySelect"
-          required
-        >
-
-          <option value="">
-            Select category
-          </option>
-
-        </select>
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="submitter">
-          Your Name
-        </label>
-
-        <input
-          id="submitter"
-          placeholder="Optional"
-        >
-
-      </div>
-
-
-      <div class="field">
-
-        <label for="officialLink">
-          Official Link
-        </label>
-
-        <input
-          id="officialLink"
-          type="url"
-          placeholder="https://..."
-        >
-
-      </div>
-
-
-      <div class="field full">
-
-        <label for="reason">
-          Why should they be nominated?
-        </label>
-
-        <textarea
-          id="reason"
-          placeholder="Tell us why this nominee deserves consideration."
-        ></textarea>
-
-      </div>
-
-
-      <div class="field full">
-
-        <button
-          class="btn btn-primary"
-          type="submit"
-          id="nominationButton"
-          disabled
-        >
-          Nominations Not Yet Open
-        </button>
-
-        <div
-          class="form-status"
-          id="nominationStatus"
-        ></div>
-
-      </div>
-
-    </form>
-
-  </div>
 
 </section>
 
 </main>
 
-
-<!-- =========================
+<!-- =======================================================
      FOOTER
-========================= -->
+======================================================= -->
 
 <footer>
 
-  <div class="container footer-grid">
+    <div class="footer-inner">
 
-    <div>
+        <div>
+            © <span id="year"></span>
+            CrowRules Entertainment • Spectrum Awards
+        </div>
 
-      <strong>
-        SPECTRUM AWARDS
-      </strong>
-
-      <br>
-
-      Celebrating the full spectrum of entertainment.
-
-    </div>
-
-
-    <div>
-
-      Nominations:
-      <strong>January 1, 2030</strong>
-
-      <br>
-
-      First Event:
-      <strong>December 31, 2030</strong>
+        <div class="footer-status">
+            CURRENT STATUS: IN PLANNING
+        </div>
 
     </div>
-
-  </div>
 
 </footer>
 
+<!-- =======================================================
+     MODAL
+======================================================= -->
 
-<!-- =========================================================
-     SUPABASE
-========================================================= -->
+<div class="modal" id="modal">
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <div class="modal-box">
 
+        <button
+            class="modal-close"
+            onclick="closeModal()">
+            ×
+        </button>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
 
 <script>
-"use strict";
-
 /* =========================================================
-   SPECTRUM AWARDS
-   SUPABASE CONFIGURATION
+   SPECTRUM AWARDS JAVASCRIPT
 ========================================================= */
 
-const SUPABASE_URL =
-  "https://zauxdqyssratvzmomozf.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-  "YOUR_SUPABASE_PUBLISHABLE_KEY";
-
-
-let supabaseClient = null;
-
+/* Current year only for copyright.
+   No launch date or countdown is used. */
+document.getElementById("year").textContent =
+    new Date().getFullYear();
 
 /* =========================================================
-   CONFIGURATION
+   PARTICLES
 ========================================================= */
 
-const CONFIG = {
+const particles = document.getElementById("particles");
 
-  firstEvent:
-    "2030-12-31T20:00:00",
+for (let i = 0; i < 70; i++) {
 
-  nominationsOpen:
-    "2030-01-01T00:00:00",
+    const particle = document.createElement("span");
 
-  preliminaryVotingStart:
-    "2030-06-01T00:00:00",
+    particle.className = "particle";
 
-  preliminaryVotingEnd:
-    "2030-08-31T23:59:59",
+    particle.style.left =
+        Math.random() * 100 + "%";
 
-  liveVotingStart:
-    "2030-12-31T20:00:00",
+    particle.style.animationDuration =
+        (10 + Math.random() * 20) + "s";
 
-  liveVotingEnd:
-    "2030-12-31T23:59:59",
+    particle.style.animationDelay =
+        (-Math.random() * 20) + "s";
 
-  /*
-    Put the actual broadcast URL here when available.
+    particle.style.opacity =
+        (0.15 + Math.random() * 0.55);
 
-    Examples:
-
-    YouTube:
-    https://www.youtube.com/watch?v=VIDEO_ID
-
-    Direct/HLS:
-    https://example.com/live/stream.m3u8
-  */
-
-  streamUrl: ""
-
-};
-
+    particles.appendChild(particle);
+}
 
 /* =========================================================
-   DEFAULT CATEGORIES
-   ========================================================= */
-
-const DEFAULT_CATEGORIES = [
-
-  "Sports",
-  "Television",
-  "Movies",
-  "YouTube",
-  "Twitch",
-  "Kick",
-  "Music",
-  "Writing",
-  "Comedy",
-  "Podcasting",
-  "Live Streaming",
-  "Gaming",
-  "Documentary",
-  "News & Commentary",
-  "Short-Form Video",
-  "Independent Creator",
-  "Emerging Creator",
-  "Best Show / Series",
-  "Best Performance",
-  "Best Story",
-  "Community Award",
-  "Special Achievement"
-
-];
-
-
-/* =========================================================
-   INIT
+   SMOOTH SCROLL
 ========================================================= */
 
-document.addEventListener(
-  "DOMContentLoaded",
-  async () => {
+function scrollToSection(id) {
 
-    initializeSupabase();
+    const element = document.getElementById(id);
 
-    renderFallbackCategories();
+    if (!element) return;
 
-    await loadCategories();
-
-    await loadWinners();
-
-    await loadVoting();
-
-    await initializeRealtime();
-
-    initializeChat();
-
-    initializeNominationForm();
-
-    initializeStream();
-
-    updateSeason();
-
-    updateCountdown();
-
-    setInterval(
-      updateCountdown,
-      1000
-    );
-
-    setInterval(
-      updateSeason,
-      30000
-    );
-
-  }
-);
-
+    element.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+}
 
 /* =========================================================
-   SUPABASE INITIALIZATION
+   TROPHY PARALLAX
 ========================================================= */
 
-function initializeSupabase() {
+const trophyArea = document.getElementById("trophyArea");
+const trophy = document.getElementById("trophy");
 
-  if (
-    !SUPABASE_URL ||
-    !SUPABASE_PUBLISHABLE_KEY ||
-    SUPABASE_PUBLISHABLE_KEY ===
-      "YOUR_SUPABASE_PUBLISHABLE_KEY"
-  ) {
+if (window.matchMedia("(pointer:fine)").matches) {
 
-    console.warn(
-      "Spectrum Awards: Supabase publishable key has not been configured."
-    );
+    trophyArea.addEventListener("mousemove", function(e) {
 
-    return;
+        const rect =
+            trophyArea.getBoundingClientRect();
 
-  }
+        const x =
+            (e.clientX - rect.left) / rect.width - .5;
 
+        const y =
+            (e.clientY - rect.top) / rect.height - .5;
 
-  try {
+        trophy.style.transform =
+            `rotateY(${x * 18}deg) rotateX(${y * -18}deg)`;
+    });
 
-    supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-      );
+    trophyArea.addEventListener("mouseleave", function() {
 
-  } catch (error) {
-
-    console.error(
-      "Supabase initialization failed:",
-      error
-    );
-
-  }
-
+        trophy.style.transform =
+            "rotateY(0deg) rotateX(0deg)";
+    });
 }
-
 
 /* =========================================================
-   CATEGORIES
+   MODALS
 ========================================================= */
 
-function renderFallbackCategories() {
+const modal = document.getElementById("modal");
+const modalContent =
+    document.getElementById("modalContent");
 
-  const list =
-    document.getElementById(
-      "categoryList"
-    );
+function openModal(type) {
 
-  const select =
-    document.getElementById(
-      "categorySelect"
-    );
+    let content = "";
 
+    if (type === "about") {
 
-  list.innerHTML = "";
+        content = `
+            <span class="eyebrow">
+                Spectrum Awards
+            </span>
 
-  DEFAULT_CATEGORIES.forEach(
-    category => {
+            <h2>About the Awards</h2>
 
-      const item =
-        document.createElement("div");
+            <p>
+                The Spectrum Awards are a future CrowRules Entertainment
+                project currently in planning.
+            </p>
 
-      item.className =
-        "category";
+            <p>
+                The concept is to create an awards experience that
+                recognizes entertainment creators, productions,
+                performers and stories across a wide range of media.
+            </p>
 
-      item.textContent =
-        category;
-
-      list.appendChild(item);
-
-      const option =
-        document.createElement("option");
-
-      option.value =
-        category;
-
-      option.textContent =
-        category;
-
-      select.appendChild(option);
-
-    }
-  );
-
-}
-
-
-async function loadCategories() {
-
-  if (!supabaseClient) {
-    return;
-  }
-
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("spectrum_categories")
-        .select("*")
-        .eq("active", true)
-        .order("sort_order");
-
-
-    if (error) {
-
-      console.warn(
-        "Could not load categories:",
-        error.message
-      );
-
-      return;
-
-    }
-
-
-    if (!data || !data.length) {
-      return;
-    }
-
-
-    const list =
-      document.getElementById(
-        "categoryList"
-      );
-
-    const select =
-      document.getElementById(
-        "categorySelect"
-      );
-
-
-    list.innerHTML = "";
-
-    select.innerHTML =
-      '<option value="">Select category</option>';
-
-
-    data.forEach(
-      category => {
-
-        const name =
-          category.name ||
-          category.title ||
-          "Category";
-
-
-        const item =
-          document.createElement("div");
-
-        item.className =
-          "category";
-
-        item.textContent =
-          name;
-
-        list.appendChild(item);
-
-
-        const option =
-          document.createElement("option");
-
-        option.value =
-          category.id ||
-          name;
-
-        option.textContent =
-          name;
-
-        select.appendChild(option);
-
-      }
-    );
-
-  } catch (error) {
-
-    console.error(
-      "Category loading error:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   SEASON STATUS
-========================================================= */
-
-function getSeasonStatus() {
-
-  const now =
-    new Date();
-
-  const nominations =
-    new Date(
-      CONFIG.nominationsOpen
-    );
-
-  const preliminaryStart =
-    new Date(
-      CONFIG.preliminaryVotingStart
-    );
-
-  const preliminaryEnd =
-    new Date(
-      CONFIG.preliminaryVotingEnd
-    );
-
-  const liveStart =
-    new Date(
-      CONFIG.liveVotingStart
-    );
-
-  const liveEnd =
-    new Date(
-      CONFIG.liveVotingEnd
-    );
-
-
-  if (now < nominations) {
-
-    return "before_nominations";
-
-  }
-
-
-  if (
-    now >= nominations &&
-    now < preliminaryStart
-  ) {
-
-    return "nominations";
-
-  }
-
-
-  if (
-    now >= preliminaryStart &&
-    now <= preliminaryEnd
-  ) {
-
-    return "preliminary_voting";
-
-  }
-
-
-  if (
-    now > preliminaryEnd &&
-    now < liveStart
-  ) {
-
-    return "finalists";
-
-  }
-
-
-  if (
-    now >= liveStart &&
-    now <= liveEnd
-  ) {
-
-    return "live_voting";
-
-  }
-
-
-  return "completed";
-
-}
-
-
-/* =========================================================
-   SEASON UI
-========================================================= */
-
-function updateSeason() {
-
-  const status =
-    getSeasonStatus();
-
-
-  const nominationButton =
-    document.getElementById(
-      "nominationButton"
-    );
-
-  const nominationStatus =
-    document.getElementById(
-      "nominationStatus"
-    );
-
-
-  const votingStatus =
-    document.getElementById(
-      "votingStatus"
-    );
-
-  const votingDescription =
-    document.getElementById(
-      "votingDescription"
-    );
-
-
-  switch (status) {
-
-    case "before_nominations":
-
-      nominationButton.disabled =
-        true;
-
-      nominationButton.textContent =
-        "Nominations Not Yet Open";
-
-      nominationStatus.textContent =
-        "Nominations officially begin January 1, 2030.";
-
-      votingStatus.textContent =
-        "Voting is currently closed.";
-
-      votingDescription.textContent =
-        "Nominations begin January 1, 2030. Preliminary voting begins Summer 2030.";
-
-      break;
-
-
-    case "nominations":
-
-      nominationButton.disabled =
-        false;
-
-      nominationButton.textContent =
-        "Submit Nomination";
-
-      nominationStatus.textContent =
-        "Nominations are currently open.";
-
-      votingStatus.textContent =
-        "Nominations are open.";
-
-      votingDescription.textContent =
-        "Submit nominees for consideration before preliminary voting begins.";
-
-      break;
-
-
-    case "preliminary_voting":
-
-      nominationButton.disabled =
-        true;
-
-      nominationButton.textContent =
-        "Preliminary Voting Is Open";
-
-      votingStatus.textContent =
-        "PRELIMINARY VOTING IS OPEN";
-
-      votingDescription.textContent =
-        "Vote for nominees and help determine the finalists.";
-
-      loadVoting();
-
-      break;
-
-
-    case "finalists":
-
-      nominationButton.disabled =
-        true;
-
-      nominationButton.textContent =
-        "Nominations Closed";
-
-      votingStatus.textContent =
-        "Finalists are being prepared.";
-
-      votingDescription.textContent =
-        "The finalists are set for the December 31 Spectrum Awards.";
-
-      break;
-
-
-    case "live_voting":
-
-      nominationButton.disabled =
-        true;
-
-      nominationButton.textContent =
-        "Nominations Closed";
-
-      votingStatus.textContent =
-        "LIVE VOTING IS OPEN";
-
-      votingDescription.textContent =
-        "Cast your final votes during the Spectrum Awards broadcast.";
-
-      loadVoting();
-
-      break;
-
-
-    case "completed":
-
-      nominationButton.disabled =
-        true;
-
-      nominationButton.textContent =
-        "2030 Season Complete";
-
-      votingStatus.textContent =
-        "The 2030 Spectrum Awards are complete.";
-
-      votingDescription.textContent =
-        "Visit the Winners section to see the inaugural Spectrum Awards results.";
-
-      break;
-
-  }
-
-
-  updateLiveStatus();
-
-}
-
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
-
-function updateCountdown() {
-
-  const target =
-    new Date(
-      CONFIG.firstEvent
-    ).getTime();
-
-  const now =
-    Date.now();
-
-  let distance =
-    target - now;
-
-
-  if (distance < 0) {
-    distance = 0;
-  }
-
-
-  const days =
-    Math.floor(
-      distance /
-      (1000 * 60 * 60 * 24)
-    );
-
-  const hours =
-    Math.floor(
-      (distance /
-        (1000 * 60 * 60)) %
-        24
-    );
-
-  const minutes =
-    Math.floor(
-      (distance /
-        (1000 * 60)) %
-        60
-    );
-
-  const seconds =
-    Math.floor(
-      (distance / 1000) %
-        60
-    );
-
-
-  document.getElementById(
-    "days"
-  ).textContent =
-    days;
-
-  document.getElementById(
-    "hours"
-  ).textContent =
-    String(hours).padStart(2,"0");
-
-  document.getElementById(
-    "minutes"
-  ).textContent =
-    String(minutes).padStart(2,"0");
-
-  document.getElementById(
-    "seconds"
-  ).textContent =
-    String(seconds).padStart(2,"0");
-
-}
-
-
-/* =========================================================
-   LIVE STATUS
-========================================================= */
-
-function updateLiveStatus() {
-
-  const status =
-    document.getElementById(
-      "liveStatus"
-    );
-
-
-  if (
-    getSeasonStatus() ===
-    "live_voting"
-  ) {
-
-    status.textContent =
-      "● LIVE • VOTING OPEN";
-
-    status.style.color =
-      "var(--green)";
-
-    return;
-
-  }
-
-
-  status.textContent =
-    "OFFLINE • EVENT PENDING";
-
-}
-
-
-/* =========================================================
-   STREAM
-========================================================= */
-
-function initializeStream() {
-
-  const button =
-    document.getElementById(
-      "loadStream"
-    );
-
-
-  button.addEventListener(
-    "click",
-    loadStream
-  );
-
-}
-
-
-function loadStream() {
-
-  const player =
-    document.getElementById(
-      "player"
-    );
-
-
-  if (!CONFIG.streamUrl) {
-
-    player.innerHTML = `
-
-      <div class="player-placeholder">
-
-        <span class="live-dot"></span>
-
-        <strong>
-          BROADCAST NOT CONFIGURED
-        </strong>
-
-        <h3>
-          Spectrum Awards Live
-        </h3>
-
-        <p>
-          Add the official 2030 broadcast URL to
-          CONFIG.streamUrl in this file when the
-          live production stream is ready.
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  const youtube =
-    getYouTubeId(
-      CONFIG.streamUrl
-    );
-
-
-  if (youtube) {
-
-    player.innerHTML = `
-
-      <iframe
-        src="https://www.youtube.com/embed/${youtube}?autoplay=1"
-        title="Spectrum Awards Live"
-        allow="autoplay; encrypted-media; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-
-    `;
-
-    return;
-
-  }
-
-
-  player.innerHTML = `
-
-    <video
-      controls
-      autoplay
-      playsinline
-      src="${escapeAttribute(CONFIG.streamUrl)}"
-    ></video>
-
-  `;
-
-}
-
-
-function getYouTubeId(url) {
-
-  if (!url) {
-    return null;
-  }
-
-
-  const patterns = [
-
-    /youtube\.com\/watch\?v=([^&]+)/i,
-
-    /youtube\.com\/embed\/([^?]+)/i,
-
-    /youtu\.be\/([^?]+)/i
-
-  ];
-
-
-  for (
-    const pattern of patterns
-  ) {
-
-    const match =
-      url.match(pattern);
-
-    if (match) {
-      return match[1];
-    }
-
-  }
-
-
-  return null;
-
-}
-
-
-/* =========================================================
-   NOMINATIONS
-========================================================= */
-
-function initializeNominationForm() {
-
-  const form =
-    document.getElementById(
-      "nominationForm"
-    );
-
-
-  form.addEventListener(
-    "submit",
-    submitNomination
-  );
-
-}
-
-
-async function submitNomination(event) {
-
-  event.preventDefault();
-
-
-  const status =
-    getSeasonStatus();
-
-
-  if (
-    status !==
-    "nominations"
-  ) {
-
-    setFormStatus(
-      "Nominations are not currently open.",
-      true
-    );
-
-    return;
-
-  }
-
-
-  if (!supabaseClient) {
-
-    setFormStatus(
-      "Supabase is not configured yet.",
-      true
-    );
-
-    return;
-
-  }
-
-
-  const nominee =
-    document.getElementById(
-      "nominee"
-    ).value.trim();
-
-  const category =
-    document.getElementById(
-      "categorySelect"
-    ).value;
-
-  const submitter =
-    document.getElementById(
-      "submitter"
-    ).value.trim();
-
-  const officialLink =
-    document.getElementById(
-      "officialLink"
-    ).value.trim();
-
-  const reason =
-    document.getElementById(
-      "reason"
-    ).value.trim();
-
-
-  if (!nominee || !category) {
-
-    setFormStatus(
-      "Please provide a nominee and category.",
-      true
-    );
-
-    return;
-
-  }
-
-
-  setFormStatus(
-    "Submitting nomination..."
-  );
-
-
-  try {
-
-    const {
-      error
-    } =
-      await supabaseClient
-        .from("spectrum_nominations")
-        .insert({
-
-          nominee:
-            nominee,
-
-          category_id:
-            category,
-
-          submitter_name:
-            submitter || null,
-
-          official_link:
-            officialLink || null,
-
-          reason:
-            reason || null
-
-        });
-
-
-    if (error) {
-
-      throw error;
-
-    }
-
-
-    document
-      .getElementById(
-        "nominationForm"
-      )
-      .reset();
-
-
-    setFormStatus(
-      "Nomination submitted successfully!",
-      false
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-    setFormStatus(
-      "Could not submit nomination. Check your Supabase table/policies.",
-      true
-    );
-
-  }
-
-}
-
-
-function setFormStatus(
-  message,
-  error = false
-) {
-
-  const element =
-    document.getElementById(
-      "nominationStatus"
-    );
-
-
-  element.textContent =
-    message;
-
-  element.className =
-    "form-status " +
-    (error ? "error" : "success");
-
-}
-
-
-/* =========================================================
-   VOTING
-========================================================= */
-
-async function loadVoting() {
-
-  const container =
-    document.getElementById(
-      "voteList"
-    );
-
-
-  if (!supabaseClient) {
-    return;
-  }
-
-
-  const status =
-    getSeasonStatus();
-
-
-  if (
-    status !==
-      "preliminary_voting" &&
-    status !==
-      "live_voting"
-  ) {
-
-    return;
-
-  }
-
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("spectrum_nominations")
-        .select("*")
-        .eq("status", "approved")
-        .order("votes", {
-          ascending: false
-        });
-
-
-    if (error) {
-      throw error;
-    }
-
-
-    if (!data || !data.length) {
-
-      container.innerHTML = `
-
-        <div class="card">
-
-          <h3>
-            Voting Is Ready
-          </h3>
-
-          <p>
-            Approved nominees will appear here.
-          </p>
-
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    container.innerHTML = "";
-
-
-    data.forEach(
-      nominee => {
-
-        const card =
-          document.createElement(
-            "article"
-          );
-
-        card.className =
-          "vote-card";
-
-
-        const name =
-          nominee.nominee ||
-          nominee.name ||
-          "Nominee";
-
-
-        const category =
-          nominee.category_name ||
-          nominee.category ||
-          "Spectrum Award";
-
-
-        const votes =
-          Number(
-            nominee.votes || 0
-          );
-
-
-        card.innerHTML = `
-
-          <div class="vote-card-top">
-
-            <div>
-
-              <div class="vote-name">
-                ${escapeHtml(name)}
-              </div>
-
-              <div class="vote-category">
-                ${escapeHtml(category)}
-              </div>
-
-            </div>
-
-            <div class="vote-count">
-              ${votes} votes
-            </div>
-
-          </div>
-
-          <button
-            class="vote-button"
-            data-id="${escapeAttribute(
-              nominee.id
-            )}"
-          >
-            Vote
-          </button>
-
+            <p>
+                Rather than rushing toward an event, the project is
+                being developed from the foundation upward.
+            </p>
         `;
 
-
-        const button =
-          card.querySelector(
-            ".vote-button"
-          );
-
-
-        button.addEventListener(
-          "click",
-          () =>
-            castVote(
-              nominee.id,
-              button
-            )
-        );
-
-
-        container.appendChild(
-          card
-        );
-
-      }
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "Voting load error:",
-      error
-    );
-
-  }
-
-}
-
-
-/*
- IMPORTANT:
-
- For production voting, the preferred architecture is:
-
- Browser
-    ↓
- Supabase RPC / Edge Function
-    ↓
- Validate voter
-    ↓
- Check voting window
-    ↓
- Check duplicate vote
-    ↓
- Increment vote
-    ↓
- Return result
-
- Do NOT expose a service-role key in this page.
-*/
-
-async function castVote(
-  nominationId,
-  button
-) {
-
-  const status =
-    getSeasonStatus();
-
-
-  if (
-    status !==
-      "preliminary_voting" &&
-    status !==
-      "live_voting"
-  ) {
-
-    alert(
-      "Voting is not currently open."
-    );
-
-    return;
-
-  }
-
-
-  if (!supabaseClient) {
-
-    alert(
-      "Supabase is not configured."
-    );
-
-    return;
-
-  }
-
-
-  button.disabled =
-    true;
-
-
-  try {
-
-    /*
-      This expects a Supabase RPC function named:
-
-      vote_spectrum_nomination
-
-      with an argument:
-
-      p_nomination_id
-
-      Create the secure RPC before production voting.
-    */
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.rpc(
-        "vote_spectrum_nomination",
-        {
-          p_nomination_id:
-            nominationId
-        }
-      );
-
-
-    if (error) {
-
-      throw error;
-
     }
 
+    if (type === "planning") {
 
-    alert(
-      "Your vote has been recorded."
-    );
+        content = `
+            <span class="eyebrow">
+                Project Development
+            </span>
 
+            <h2>Planning Phase</h2>
 
-    await loadVoting();
+            <p>
+                The Spectrum Awards are currently in the planning stage.
+            </p>
 
+            <p>
+                This stage focuses on defining the awards identity,
+                categories, nomination process, voting structure,
+                member experience, broadcast concept and long-term
+                vision.
+            </p>
 
-  } catch (error) {
-
-    console.error(
-      error
-    );
-
-    alert(
-      "Vote could not be recorded. The secure voting function may not be configured yet."
-    );
-
-    button.disabled =
-      false;
-
-  }
-
-}
-
-
-/* =========================================================
-   WINNERS
-========================================================= */
-
-async function loadWinners() {
-
-  if (!supabaseClient) {
-    return;
-  }
-
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("spectrum_winners")
-        .select("*")
-        .order("year", {
-          ascending: false
-        });
-
-
-    if (error) {
-      throw error;
-    }
-
-
-    if (!data || !data.length) {
-      return;
-    }
-
-
-    const grid =
-      document.getElementById(
-        "winnerGrid"
-      );
-
-
-    grid.innerHTML = "";
-
-
-    data.forEach(
-      winner => {
-
-        const card =
-          document.createElement(
-            "article"
-          );
-
-        card.className =
-          "winner";
-
-
-        card.innerHTML = `
-
-          <div class="winner-year">
-            ${escapeHtml(
-              String(
-                winner.year ||
-                2030
-              )
-            )}
-          </div>
-
-          <div class="winner-award">
-            ${escapeHtml(
-              winner.award_name ||
-              winner.category_name ||
-              winner.category ||
-              "Spectrum Award"
-            )}
-          </div>
-
-          <div class="winner-name">
-            ${escapeHtml(
-              winner.winner_name ||
-              winner.nominee ||
-              "Winner"
-            )}
-          </div>
-
+            <p>
+                Additional features can be introduced as the project
+                develops.
+            </p>
         `;
 
+    }
 
-        grid.appendChild(
-          card
-        );
+    if (type === "vision") {
 
-      }
-    );
+        content = `
+            <span class="eyebrow">
+                The Bigger Picture
+            </span>
 
+            <h2>The Vision</h2>
 
-  } catch (error) {
+            <p>
+                Spectrum Awards is intended to become a celebration
+                of entertainment in all its forms.
+            </p>
 
-    console.error(
-      "Winner loading error:",
-      error
-    );
+            <p>
+                Television, film, music, podcasting, gaming,
+                digital media and independent creators can all have
+                a place within the larger Spectrum.
+            </p>
 
-  }
+            <p>
+                The goal is to build an experience that connects
+                creators, nominees, winners and audiences.
+            </p>
+        `;
+    }
 
+    modalContent.innerHTML = content;
+
+    modal.classList.add("active");
+
+    document.body.style.overflow = "hidden";
 }
 
+function closeModal() {
+
+    modal.classList.remove("active");
+
+    document.body.style.overflow = "";
+}
+
+modal.addEventListener("click", function(e) {
+
+    if (e.target === modal) {
+        closeModal();
+    }
+
+});
+
+document.addEventListener("keydown", function(e) {
+
+    if (e.key === "Escape") {
+        closeModal();
+    }
+
+});
 
 /* =========================================================
-   LIVE CHAT
+   CARD REVEAL
 ========================================================= */
 
-function initializeChat() {
+const cards =
+    document.querySelectorAll(".card");
 
-  const form =
-    document.getElementById(
-      "chatForm"
-    );
+const observer =
+    new IntersectionObserver(
+        entries => {
 
+            entries.forEach(entry => {
 
-  form.addEventListener(
-    "submit",
-    async event => {
+                if (entry.isIntersecting) {
 
-      event.preventDefault();
+                    entry.target.classList.add("visible");
 
-      const input =
-        document.getElementById(
-          "chatInput"
-        );
-
-      const message =
-        input.value.trim();
-
-
-      if (!message) {
-        return;
-      }
-
-
-      if (!supabaseClient) {
-
-        addChatMessage(
-          "You",
-          message
-        );
-
-        input.value = "";
-
-        return;
-
-      }
-
-
-      try {
-
-        const {
-          error
-        } =
-          await supabaseClient
-            .from("spectrum_live_chat")
-            .insert({
-
-              username:
-                "Guest",
-
-              message:
-                message
+                    observer.unobserve(entry.target);
+                }
 
             });
 
-
-        if (error) {
-          throw error;
+        },
+        {
+            threshold: .15
         }
-
-
-        input.value = "";
-
-
-      } catch (error) {
-
-        console.error(
-          "Chat error:",
-          error
-        );
-
-      }
-
-    }
-  );
-
-}
-
-
-function addChatMessage(
-  username,
-  message
-) {
-
-  const log =
-    document.getElementById(
-      "chatLog"
     );
 
-
-  const row =
-    document.createElement(
-      "div"
-    );
-
-  row.className =
-    "chat-message";
-
-
-  row.innerHTML = `
-
-    <strong>
-      ${escapeHtml(username)}:
-    </strong>
-
-    ${escapeHtml(message)}
-
-  `;
-
-
-  log.appendChild(
-    row
-  );
-
-
-  log.scrollTop =
-    log.scrollHeight;
-
-}
-
-
-async function loadChat() {
-
-  if (!supabaseClient) {
-    return;
-  }
-
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient
-        .from("spectrum_live_chat")
-        .select("*")
-        .order("created_at", {
-          ascending: true
-        })
-        .limit(100);
-
-
-    if (error) {
-      throw error;
-    }
-
-
-    if (!data) {
-      return;
-    }
-
-
-    const log =
-      document.getElementById(
-        "chatLog"
-      );
-
-
-    log.innerHTML = "";
-
-
-    data.forEach(
-      message => {
-
-        addChatMessage(
-          message.username ||
-            "Guest",
-          message.message ||
-            ""
-        );
-
-      }
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "Chat loading error:",
-      error
-    );
-
-  }
-
-}
-
+cards.forEach(card => observer.observe(card));
 
 /* =========================================================
-   SUPABASE REALTIME
+   CONSOLE BRANDING
 ========================================================= */
 
-async function initializeRealtime() {
+console.log(
+    "%c SPECTRUM AWARDS ",
+    "background:linear-gradient(90deg,#ff2d95,#8b5cff);color:white;font-size:18px;font-weight:bold;padding:8px 14px;border-radius:8px;"
+);
 
-  if (!supabaseClient) {
-    return;
-  }
-
-
-  try {
-
-    await loadChat();
-
-
-    supabaseClient
-      .channel(
-        "spectrum-live-chat"
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "spectrum_live_chat"
-        },
-        payload => {
-
-          const message =
-            payload.new;
-
-
-          addChatMessage(
-            message.username ||
-              "Guest",
-            message.message ||
-              ""
-          );
-
-        }
-      )
-      .subscribe();
-
-
-    supabaseClient
-      .channel(
-        "spectrum-voting"
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "spectrum_nominations"
-        },
-        () => {
-
-          if (
-            getSeasonStatus() ===
-              "preliminary_voting" ||
-            getSeasonStatus() ===
-              "live_voting"
-          ) {
-
-            loadVoting();
-
-          }
-
-        }
-      )
-      .subscribe();
-
-
-    supabaseClient
-      .channel(
-        "spectrum-winners"
-      )
-      .on(
-        "postgres_changes",
-        {
-          event: "INSERT",
-          schema: "public",
-          table: "spectrum_winners"
-        },
-        () => {
-
-          loadWinners();
-
-        }
-      )
-      .subscribe();
-
-
-  } catch (error) {
-
-    console.error(
-      "Realtime initialization error:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   SECURITY HELPERS
-========================================================= */
-
-function escapeHtml(
-  value
-) {
-
-  return String(
-    value
-  ).replace(
-    /[&<>"']/g,
-    character => {
-
-      const map = {
-
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#039;"
-
-      };
-
-      return map[
-        character
-      ];
-
-    }
-  );
-
-}
-
-
-function escapeAttribute(
-  value
-) {
-
-  return escapeHtml(
-    value
-  );
-
-}
-
-
-/* =========================================================
-   PUBLIC API
-========================================================= */
-
-window.SpectrumAwards = {
-
-  config:
-    CONFIG,
-
-  getSeasonStatus,
-
-  loadCategories,
-
-  loadVoting,
-
-  loadWinners,
-
-  loadChat
-
-};
-
+console.log(
+    "CrowRules Entertainment • Currently in Planning"
+);
 </script>
 
 </body>
