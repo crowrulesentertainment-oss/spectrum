@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spectrum Awards Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#030309;--panel:#0b0b14;--line:#252638;--muted:#999daf;--cyan:#32e6ff;--purple:#9b5cff;--pink:#ff3ca6;--gold:#ffd76a;--green:#55e69b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,rgba(155,92,255,.12),transparent 35%),var(--bg);color:#fff;font:14px Montserrat,Arial,sans-serif}.wrap{width:min(1180px,calc(100% - 30px));margin:auto;padding:28px 0 60px}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.back{color:var(--cyan);text-decoration:none;font-weight:700}.ey{color:var(--cyan);font:700 10px Orbitron;letter-spacing:3px;margin-top:28px}h1{font:800 clamp(34px,6vw,62px) Orbitron;letter-spacing:-3px;margin:10px 0}h2{font:700 20px Orbitron;margin:0 0 8px}.muted{color:var(--muted);line-height:1.7}.status{padding:10px 14px;border:1px solid var(--line);border-radius:999px;color:var(--gold);font:700 10px Orbitron;letter-spacing:1px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:28px}.card{background:rgba(11,11,20,.9);border:1px solid var(--line);border-radius:18px;padding:19px}.stat{font:800 30px Orbitron;margin-top:8px}.label{font:700 9px Orbitron;letter-spacing:2px;color:var(--cyan)}.wide{margin-top:14px}.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #1c1d29}.row:last-child{border-bottom:0}.pill{display:inline-block;padding:5px 8px;border-radius:999px;background:#151522;color:#cfd2df;font:700 9px Orbitron}.ok{color:var(--green)}.warn{color:var(--gold)}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}.btn{display:inline-block;padding:10px 13px;border-radius:10px;border:1px solid var(--line);background:#090910;color:#fff;text-decoration:none;font:700 10px Orbitron}.btn.primary{background:linear-gradient(100deg,var(--cyan),var(--purple));color:#05050a;border:0}.empty{color:var(--muted);padding:14px 0}.error{color:#ff7b9e}.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:15px}.step{padding:12px 8px;text-align:center;border:1px solid var(--line);border-radius:12px;color:#aeb1c0;font:700 9px Orbitron}.step.active{border-color:rgba(50,230,255,.45);color:var(--cyan);background:rgba(50,230,255,.05)}@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.columns{grid-template-columns:1fr}.flow{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.grid{grid-template-columns:1fr}.top{display:block}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><div><a class="back" href="admin.html">← Admin Command Center</a><div class="ey">CROWRULES • SPECTRUM AWARDS</div><h1>AWARDS DASHBOARD</h1><p class="muted">One screen for the complete Spectrum lifecycle: categories → nominations → official nominees → voting → certification → winners.</p></div><div id="access" class="status">VERIFYING ACCESS</div></div>
+<section id="app" hidden>
+<div class="grid">
+<div class="card"><div class="label">ACTIVE CATEGORIES</div><div class="stat" id="categories">—</div></div>
+<div class="card"><div class="label">NOMINATIONS</div><div class="stat" id="nominations">—</div></div>
+<div class="card"><div class="label">OFFICIAL NOMINEES</div><div class="stat" id="nominees">—</div></div>
+<div class="card"><div class="label">VOTES</div><div class="stat" id="votes">—</div></div>
+</div>
+<div class="columns">
+<div>
+<div class="card wide"><h2>Lifecycle</h2><div class="flow">
+<div class="step active">CATEGORIES</div><div class="step active">NOMINATIONS</div><div class="step active">NOMINEES</div><div class="step" id="voteStep">VOTING</div><div class="step" id="certStep">CERTIFICATION</div><div class="step" id="winnerStep">WINNERS</div><div class="step">CEREMONY</div>
+</div><div id="votingSummary" class="muted" style="margin-top:15px">Loading voting status…</div></div>
+<div class="card wide"><h2>Recent Nominations</h2><div id="recentNominations">Loading…</div></div>
+<div class="card wide"><h2>Official Nominee Roster</h2><div id="recentNominees">Loading…</div></div>
+</div>
+<div>
+<div class="card wide"><h2>Control Centers</h2><div class="actions">
+<a class="btn primary" href="categories.html">CATEGORIES</a><a class="btn primary" href="nominees.html">NOMINEES</a><a class="btn primary" href="admin.html">NOMINATIONS / VOTING</a><a class="btn" href="nominate.html">PUBLIC NOMINATION</a><a class="btn" href="vote.html">VOTING PAGE</a><a class="btn" href="winners.html">WINNERS</a></div></div>
+<div class="card wide"><h2>Results</h2><div class="row"><span>Certified categories</span><strong id="certified">—</strong></div><div class="row"><span>Certified winner records</span><strong id="results">—</strong></div><div class="row"><span>Published winners</span><strong id="publishedWinners">—</strong></div><p class="muted" id="resultNote">Loading…</p></div>
+<div class="card wide"><h2>System Readiness</h2><div id="readiness">Loading…</div></div>
+</div>
+</div>
+</section>
+</div>
+<script>
+let db;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[x]));
+function showError(msg){$("access").textContent="ERROR";$("access").style.color="#ff7b9e";$("access").title=msg}
+async function init(){
+ try{
+  const m=await window.CrowRulesMembership.getCrowRulesMember(); db=m.client;
+  if(!m.user){showError("Sign in required.");return}
+  const a=await db.rpc("crplus_is_admin"); if(a.error||!a.data){showError("Administrator access is required.");return}
+  $("access").textContent="ADMIN VERIFIED";$("access").className="status ok";$("app").hidden=false;await load();
+ }catch(e){showError(e.message)}
+}
+async function count(table,filter){
+ let q=db.from(table).select("*",{count:"exact",head:true}); if(filter) for(const [k,v] of Object.entries(filter)) q=q.eq(k,v); const r=await q; return r.error?{count:0,error:r.error}:{count:r.count||0}
+}
+async function load(){
+ const [cat,nom,official,votes,cert,res]=await Promise.all([
+  count("spectrum_award_categories",{is_active:true}),count("spectrum_award_nominations"),count("spectrum_award_nominees",{status:"approved"}),count("spectrum_award_votes"),count("spectrum_vote_certifications"),count("spectrum_award_results",{result_status:"winner"})
+ ]);
+ $("categories").textContent=cat.count;$("nominations").textContent=nom.count;$("nominees").textContent=official.count;$("votes").textContent=votes.count;$("certified").textContent=cert.count;$("results").textContent=res.count;
+ const [pub,configs,recentN,recentM]=await Promise.all([
+  count("spectrum_award_results",{result_status:"winner"}),db.from("spectrum_voting_config").select("id,voting_status,eligibility,opens_at,closes_at,certified_at,updated_at").order("created_at",{ascending:false}).limit(1),
+  db.from("spectrum_award_nominations").select("id,nominee_name,project_name,status,created_at").order("created_at",{ascending:false}).limit(8),
+  db.from("spectrum_award_nominees").select("id,nominee_name,project_name,status,is_published,created_at").order("created_at",{ascending:false}).limit(8)
+ ]);
+ $("publishedWinners").textContent=pub.count;
+ const cfg=configs.data?.[0]; renderVoting(cfg); renderNominations(recentN); renderNominees(recentM);
+ const ready=[]; ready.push([cat.count>0,"Categories loaded"]); ready.push([nom.count>0,"Nomination intake"]); ready.push([official.count>0,"Official nominee roster"]); ready.push([!!cfg,"Voting configuration"]); ready.push([votes.count>0,"Votes recorded"]); ready.push([cert.count>0,"Results certified"]); ready.push([res.count>0,"Winner records"]);
+ $("readiness").innerHTML=ready.map(x=>'<div class="row"><span>'+esc(x[1])+'</span><strong class="'+(x[0]?"ok":"warn")+'">'+(x[0]?"READY":"WAITING")+'</strong></div>').join("");
+ $("resultNote").textContent=res.count?"Certified winner records are present in the database.":"No certified winners exist yet; that is expected while the awards database is empty.";
+}
+function renderVoting(c){
+ if(!c){$("votingSummary").innerHTML='<span class="warn">No voting configuration exists yet.</span>';return}
+ const s=c.voting_status||"unknown"; $("votingSummary").innerHTML='Current voting configuration: <span class="pill">'+esc(s.toUpperCase())+'</span> · Eligibility: '+esc(c.eligibility||"not set")+(c.opens_at?" · Opens "+esc(new Date(c.opens_at).toLocaleString()):"")+(c.closes_at?" · Closes "+esc(new Date(c.closes_at).toLocaleString()):"");
+ $("voteStep").classList.toggle("active",s==="open"||s==="closed"||s==="certified"); $("certStep").classList.toggle("active",s==="certified"); $("winnerStep").classList.toggle("active",s==="certified");
+}
+function renderNominations(r){$("recentNominations").innerHTML=r.error?'<div class="error">'+esc(r.error.message)+'</div>':r.data?.length?r.data.map(x=>'<div class="row"><span><strong>'+esc(x.nominee_name)+'</strong><br><span class="muted">'+esc(x.project_name||"")+'</span></span><span class="pill">'+esc(x.status||"submitted")+'</span></div>').join(""):'<div class="empty">No nominations yet.</div>'}
+function renderNominees(r){$("recentNominees").innerHTML=r.error?'<div class="error">'+esc(r.error.message)+'</div>':r.data?.length?r.data.map(x=>'<div class="row"><span><strong>'+esc(x.nominee_name)+'</strong><br><span class="muted">'+esc(x.project_name||"")+'</span></span><span class="pill">'+(x.is_published?"PUBLISHED":"HIDDEN")+'</span></div>').join(""):'<div class="empty">No official nominees yet.</div>'}
+init();
+</script>
+</body>
+</html>
