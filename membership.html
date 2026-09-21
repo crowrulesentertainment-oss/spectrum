@@ -12,36 +12,54 @@
 </style><script src="assets/supabase.js"></script></head>
 <body><div id="crMemberBar" style="position:fixed;right:18px;bottom:18px;z-index:9999;font:600 12px Montserrat;max-width:320px"></div><div class="wrap">
 <header class="top"><div class="logo">CROW<span>RULES</span></div><div class="status" id="authStatus">Loading membership...</div></header>
-<section class="hero"><div class="eyebrow">CROWRULES ENTERTAINMENT</div><h1>WATCH IT. CREATE IT. BUILD IT.</h1><p>Membership connects the CrowRules community across CrowRules TV, Podcasting, Dreamscapes, Tacoma Nights, Back Deck Live, Sports and the future CrowRules universe.</p></section>
+<section class="hero"><div class="eyebrow">CROWRULES ENTERTAINMENT</div><h1>WATCH IT. CREATE IT. BUILD IT.</h1><p>One universal account connects your CrowRules identity across Spectrum Awards and the wider CrowRules universe. Sign in once, then move between CrowRules projects with the same membership.</p></section>
 <section class="grid" id="plans"></section>
 <div class="note">Free CROW membership is available now. Paid membership checkout is prepared for Stripe integration; no payment is requested until the billing connection is activated.</div>
 </div>
 <script>
-const SUPABASE_URL='https://cevylpnoexugwgygvtgu.supabase.co';
-const SUPABASE_KEY='sb_publishable_AdfM5y6RqvF3tbvEVzDZSg_JuGTQLD-';
-const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const sb=window.CrowRulesMembership.loadCrowRulesSupabase();
 const plansEl=document.getElementById('plans'),authStatus=document.getElementById('authStatus');
 function esc(s){return String(s||'').replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
 async function init(){
- const a=await sb.auth.getSession(), b=await sb.from('membership_plans').select('*').eq('is_active',true).order('sort_order');
+ const client=await sb;
+ const a=await client.auth.getSession(), b=await client.from('membership_plans').select('*').eq('is_active',true).order('sort_order');
  const session=a.data.session, plans=b.data, error=b.error;
- authStatus.textContent=session&&session.user&&session.user.email?'Signed in as '+session.user.email:'Sign in to manage your membership';
+ authStatus.textContent=session?.user?.email?'Signed in as '+session.user.email:'Sign in to manage your membership';
  if(error){plansEl.innerHTML='<p>Membership plans are temporarily unavailable.</p>';return}
+ if(!plans?.length){plansEl.innerHTML='<p>No active membership plans are currently published.</p>';return}
  plansEl.innerHTML=plans.map(function(p){
-   return '<article class="card '+(p.is_featured?'featured':'')+'"><div class="tier">'+esc(p.name)+'</div><div class="price">'+(p.price_cents===0?'FREE':'$'+(p.price_cents/100).toFixed(0))+' <small>'+(p.price_cents===0?'':'/ month')+'</small></div><div class="desc">'+esc(p.description)+'</div><ul class="features">'+(p.features||[]).map(function(f){return '<li>✓ '+esc(f)+'</li>'}).join('')+'</ul><button class="btn '+(p.price_cents===0?'primary':'')+'" onclick="choosePlan(\''+esc(p.plan_key)+'\','+p.price_cents+')">'+(p.price_cents===0?'Join CROW':'Choose '+esc(p.name))+'</button></article>';
+   const price=p.price_cents===0?'FREE':'
+</script><script>
+(async()=>{try{
+ const m=await window.CrowRulesMembership.getCrowRulesMember(); const el=document.getElementById("crMemberBar"); if(!el)return;
+ if(!m.user){el.innerHTML='<a href="membership.html" style="display:block;padding:12px 15px;border:1px solid rgba(50,230,255,.35);border-radius:12px;background:rgba(5,8,15,.92);color:#fff;text-decoration:none">ONE ACCOUNT. ONE UNIVERSE.<br><span style="color:#32e6ff">SIGN IN / JOIN</span></a>';return;}
+ const name=m.profile?.display_name||m.profile?.username||m.user.email||"CrowRules Member"; const plan=m.membership?.plan_name||m.membership?.membership_type||"Universal Member";
+ el.innerHTML='<div style="padding:12px 15px;border:1px solid rgba(50,230,255,.35);border-radius:12px;background:rgba(5,8,15,.95);color:#fff">👤 '+String(name).replace(/[<>&"]/g,"")+'<br><span style="color:#32e6ff">'+String(plan).replace(/[<>&"]/g,"")+'</span><br><a href="membership.html" style="color:#fff">MEMBERSHIP</a> · <button id="crSignOut" style="background:none;border:0;color:#ff6b6b;cursor:pointer">SIGN OUT</button></div>';
+ document.getElementById("crSignOut").onclick=window.CrowRulesMembership.signOutCrowRules;
+ }catch(e){console.warn("CrowRules membership:",e)}})();
+</script></body></html>+(p.price_cents/100).toFixed(2);
+   const interval=p.billing_interval&&p.price_cents>0?'/ '+esc(p.billing_interval):'';
+   const features=Array.isArray(p.features)?p.features:(p.features&&typeof p.features==='object'?Object.values(p.features):[]);
+   return '<article class="card '+(p.is_featured?'featured':'')+'"><div class="tier">'+esc(p.name)+'</div><div class="price">'+price+' <small>'+interval+'</small></div><div class="desc">'+esc(p.description)+'</div><ul class="features">'+features.map(function(f){return '<li>✓ '+esc(f)+'</li>'}).join('')+'</ul><button class="btn '+(p.price_cents===0?'primary':'')+'" onclick="choosePlan(\''+esc(p.plan_key)+'\','+Number(p.price_cents||0)+')">'+(p.price_cents===0?'Join CROW':'Choose '+esc(p.name))+'</button></article>';
  }).join('');
 }
 async function choosePlan(key,price){
- const a=await sb.auth.getSession(),session=a.data.session;
+ const client=await sb;
+ const a=await client.auth.getSession(),session=a.data.session;
  if(!session){location.href='login.html?next=membership.html';return}
  if(price===0){
-   const r=await sb.from('members').upsert({user_id:session.user.id,email:session.user.email,membership_type:'CROW',status:'Active'},{onConflict:'user_id'});
-   if(r.error){alert(r.error.message);return}
-   alert('Your free CROW membership is active.');return;
+   try{
+     await window.CrowRulesMembership.ensureCrowRulesMembership();
+     alert('Your universal CROW membership is active.');
+     await init();
+   }catch(e){alert(e.message||'Unable to activate membership.');}
+   return;
  }
- alert('Paid checkout is prepared for Stripe connection but is not activated yet. Selected plan: '+key+'.');
+ alert('Stripe checkout is not activated on this page yet. Selected plan: '+key+'.');
 }
-sb.auth.onAuthStateChange(function(){init()});init();
+const clientPromise=sb;
+clientPromise.then(client=>client.auth.onAuthStateChange(()=>init()));
+init();
 </script><script>
 (async()=>{try{
  const m=await window.CrowRulesMembership.getCrowRulesMember(); const el=document.getElementById("crMemberBar"); if(!el)return;
