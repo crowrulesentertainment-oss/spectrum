@@ -33,7 +33,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#68687a;font-size:1
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/supabase.js"></script>
 </head>
-<body>
+<body><div id="crMemberBar" style="position:fixed;right:18px;bottom:18px;z-index:9999;font:600 12px Montserrat;max-width:320px"></div>
 <div id="stars"></div><div id="beam"></div>
 <header><nav class="nav">
 <a class="brand" href="#"><div class="mark"></div><div><strong>SPECTRUM AWARDS</strong><span>CROWRULES ENTERTAINMENT</span></div></a>
@@ -113,4 +113,12 @@ document.getElementById('year').textContent=new Date().getFullYear();
 const stars=document.getElementById('stars');for(let i=0;i<95;i++){const s=document.createElement('i');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.opacity=.15+Math.random()*.55;s.style.animationDuration=12+Math.random()*25+'s';s.style.animationDelay=-Math.random()*25+'s';stars.appendChild(s)}
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(x=>io.observe(x));
 </script>
-</body></html>
+<script>
+(async()=>{try{
+ const m=await window.CrowRulesMembership.getCrowRulesMember(); const el=document.getElementById("crMemberBar"); if(!el)return;
+ if(!m.user){el.innerHTML='<a href="membership.html" style="display:block;padding:12px 15px;border:1px solid rgba(50,230,255,.35);border-radius:12px;background:rgba(5,8,15,.92);color:#fff;text-decoration:none">ONE ACCOUNT. ONE UNIVERSE.<br><span style="color:#32e6ff">SIGN IN / JOIN</span></a>';return;}
+ const name=m.profile?.display_name||m.profile?.username||m.user.email||"CrowRules Member"; const plan=m.membership?.plan_name||m.membership?.membership_type||"Universal Member";
+ el.innerHTML='<div style="padding:12px 15px;border:1px solid rgba(50,230,255,.35);border-radius:12px;background:rgba(5,8,15,.95);color:#fff">👤 '+String(name).replace(/[<>&"]/g,"")+'<br><span style="color:#32e6ff">'+String(plan).replace(/[<>&"]/g,"")+'</span><br><a href="membership.html" style="color:#fff">MEMBERSHIP</a> · <button id="crSignOut" style="background:none;border:0;color:#ff6b6b;cursor:pointer">SIGN OUT</button></div>';
+ document.getElementById("crSignOut").onclick=window.CrowRulesMembership.signOutCrowRules;
+ }catch(e){console.warn("CrowRules membership:",e)}})();
+</script></body></html>
