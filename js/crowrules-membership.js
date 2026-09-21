@@ -1,32 +1,28 @@
-/* CrowRules Universal Membership Client */
-window.CrowRulesMembership=(function(){
- const SUPABASE_URL='https://cevylpnoexugwgygvtgu.supabase.co';
- const SUPABASE_KEY='sb_publishable_AdfM5y6RqvF3tbvEVzDZSg_JuGTQLD-';
- const FUNCTION_URL=SUPABASE_URL+'/functions/v1/membership-status';
- let client=null;
- function init(){
-   if(!window.supabase) throw new Error('Supabase JS must be loaded before crowrules-membership.js');
-   client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-   return client;
- }
- async function status(){
-   if(!client) init();
-   const {data:{session}}=await client.auth.getSession();
-   if(!session) return {ok:true,authenticated:false,membership:null,sites:[],entitlements:[]};
-   const r=await fetch(FUNCTION_URL,{headers:{Authorization:'Bearer '+session.access_token,apikey:SUPABASE_KEY}});
-   return await r.json();
- }
- async function ensureCrow(){
-   if(!client) init();
-   const r=await client.rpc('ensure_crow_membership');
-   if(r.error) throw r.error;
-   return r.data;
- }
- async function hasAccess(siteKey,minLevel){
-   const s=await status();
-   if(!s.membership) return false;
-   const levels={crow:1,crowner:2,creator:3,founder:4};
-   return (levels[s.membership.plan_key]||0)>=(levels[minLevel||'crow']||1);
- }
- return {init,status,ensureCrow,hasAccess};
+/* CrowRules Universal Membership compatibility layer.
+   Use assets/supabase.js as the single source of truth. */
+(function(){
+  function api(){
+    if(!window.CrowRulesMembership) throw new Error("Load assets/supabase.js before crowrules-membership.js");
+    return window.CrowRulesMembership;
+  }
+  async function status(){
+    const m=await api().getCrowRulesMember();
+    return {
+      ok:true,
+      authenticated:!!m.user,
+      user:m.user||null,
+      membership:m.membership||null,
+      profile:m.profile||null,
+      sites:["spectrum"],
+      entitlements:[]
+    };
+  }
+  async function ensureCrow(){ return api().ensureCrowRulesMembership(); }
+  async function hasAccess(siteKey,minLevel){
+    const m=await api().getCrowRulesMember();
+    if(!m.user||!m.membership) return false;
+    const levels={crow:1,crowner:2,creator:3,founder:4};
+    return Number(m.membership.level||0)>=(levels[minLevel||"crow"]||1);
+  }
+  window.CrowRulesUniversalMembership={status,ensureCrow,hasAccess};
 })();
