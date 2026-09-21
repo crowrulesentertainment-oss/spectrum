@@ -3,7 +3,7 @@
    Public client only. Never place service_role/secret keys here.
 */
 const CROWRULES_SUPABASE_URL = "https://cevylpnoexugwgygvtgu.supabase.co";
-const CROWRULES_SUPABASE_KEY = "YOUR_SUPABASE_PUBLISHABLE_KEY";
+const CROWRULES_SUPABASE_KEY = "sb_publishable_AdfM5y6RqvF3tbvEVzDZSg_JuGTQLD-";
 
 let crowSupabase = null;
 
