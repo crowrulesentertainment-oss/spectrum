@@ -33,7 +33,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#68687a;font-size:1
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="assets/supabase.js"></script>
 </head>
-<body><div id="crMemberBar" style="position:fixed;right:18px;bottom:18px;z-index:9999;font:600 12px Montserrat;max-width:320px"></div>
+<body><div id="spectrumSeasonBanner" style="display:none"></div><div id="crMemberBar" style="position:fixed;right:18px;bottom:18px;z-index:9999;font:600 12px Montserrat;max-width:320px"></div>
 <div id="stars"></div><div id="beam"></div>
 <header><nav class="nav">
 <a class="brand" href="#"><div class="mark"></div><div><strong>SPECTRUM AWARDS</strong><span>CROWRULES ENTERTAINMENT</span></div></a>
@@ -147,4 +147,13 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 </script>
 <style>
 .spectrum-data-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:25px}.spectrum-data-grid>div{padding:20px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.03)}.spectrum-data-grid strong,.spectrum-data-grid span{display:block}.spectrum-data-grid strong{font:700 10px Orbitron;letter-spacing:2px;color:#32e6ff;margin-bottom:8px}.spectrum-data-grid span{font-weight:800}@media(max-width:700px){.spectrum-data-grid{grid-template-columns:1fr}}
-</style><div style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><a href="nominate.html" style="padding:10px 14px;border:1px solid #32e6ff;border-radius:999px;background:#05050bcc;color:#32e6ff;text-decoration:none;font:700 11px Orbitron">NOMINATE</a><a href="vote.html" style="padding:10px 14px;border:1px solid #9b5cff;border-radius:999px;background:#05050bcc;color:#fff;text-decoration:none;font:700 11px Orbitron">VOTE</a></div></body></html>
+</style><div style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><a href="nominate.html" style="padding:10px 14px;border:1px solid #32e6ff;border-radius:999px;background:#05050bcc;color:#32e6ff;text-decoration:none;font:700 11px Orbitron">NOMINATE</a><a href="vote.html" style="padding:10px 14px;border:1px solid #9b5cff;border-radius:999px;background:#05050bcc;color:#fff;text-decoration:none;font:700 11px Orbitron">VOTE</a></div></body></html><script>
+(async()=>{try{
+ const m=await window.CrowRulesMembership.getCrowRulesMember(); if(!m?.client)return;
+ const q=await m.client.from("spectrum_awards").select("id,award_year,title,status,ceremony_at,description").in("status",["planned","nominations","voting","ceremony"]).order("award_year",{ascending:false}).limit(1);
+ const a=q.data?.[0]; if(!a)return;
+ const el=document.getElementById("spectrumSeasonBanner"); if(!el)return;
+ el.style.cssText="display:block;margin:14px auto;padding:12px 16px;max-width:1100px;border:1px solid rgba(50,230,255,.25);border-radius:12px;background:rgba(50,230,255,.04);color:#dfefff;font:700 11px Montserrat;letter-spacing:.5px";
+ el.innerHTML="ACTIVE SPECTRUM SEASON · "+String(a.award_year)+" — "+String(a.title).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+}catch(e){console.warn("Spectrum season:",e)}})();
+</script>
