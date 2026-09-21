@@ -12,7 +12,7 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,rgba(155,92,255,.12),transparent 35%),var(--bg);color:#fff;font:14px Montserrat,Arial,sans-serif}.wrap{width:min(1180px,calc(100% - 30px));margin:auto;padding:28px 0 60px}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start}.back{color:var(--cyan);text-decoration:none;font-weight:700}.ey{color:var(--cyan);font:700 10px Orbitron;letter-spacing:3px;margin-top:28px}h1{font:800 clamp(34px,6vw,62px) Orbitron;letter-spacing:-3px;margin:10px 0}h2{font:700 20px Orbitron;margin:0 0 8px}.muted{color:var(--muted);line-height:1.7}.status{padding:10px 14px;border:1px solid var(--line);border-radius:999px;color:var(--gold);font:700 10px Orbitron;letter-spacing:1px}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:28px}.card{background:rgba(11,11,20,.9);border:1px solid var(--line);border-radius:18px;padding:19px}.stat{font:800 30px Orbitron;margin-top:8px}.label{font:700 9px Orbitron;letter-spacing:2px;color:var(--cyan)}.wide{margin-top:14px}.columns{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;margin-top:14px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #1c1d29}.row:last-child{border-bottom:0}.pill{display:inline-block;padding:5px 8px;border-radius:999px;background:#151522;color:#cfd2df;font:700 9px Orbitron}.ok{color:var(--green)}.warn{color:var(--gold)}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}.btn{display:inline-block;padding:10px 13px;border-radius:10px;border:1px solid var(--line);background:#090910;color:#fff;text-decoration:none;font:700 10px Orbitron}.btn.primary{background:linear-gradient(100deg,var(--cyan),var(--purple));color:#05050a;border:0}.empty{color:var(--muted);padding:14px 0}.error{color:#ff7b9e}.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:15px}.step{padding:12px 8px;text-align:center;border:1px solid var(--line);border-radius:12px;color:#aeb1c0;font:700 9px Orbitron}.step.active{border-color:rgba(50,230,255,.45);color:var(--cyan);background:rgba(50,230,255,.05)}@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}.columns{grid-template-columns:1fr}.flow{grid-template-columns:repeat(2,1fr)}}@media(max-width:560px){.grid{grid-template-columns:1fr}.top{display:block}}
 </style>
 </head>
-<body>
+<body><div id="spectrumSeasonBanner" style="display:none"></div>
 <div class="wrap">
 <div class="top"><div><a class="back" href="admin.html">← Admin Command Center</a><div class="ey">CROWRULES • SPECTRUM AWARDS</div><h1>AWARDS DASHBOARD</h1><p class="muted">One screen for the complete Spectrum lifecycle: categories → nominations → official nominees → voting → certification → winners.</p></div><div id="access" class="status">VERIFYING ACCESS</div></div>
 <section id="app" hidden>
@@ -81,4 +81,13 @@ function renderNominees(r){$("recentNominees").innerHTML=r.error?'<div class="er
 init();
 </script>
 </body>
-</html>
+</html><script>
+(async()=>{try{
+ const m=await window.CrowRulesMembership.getCrowRulesMember(); if(!m?.client)return;
+ const q=await m.client.from("spectrum_awards").select("id,award_year,title,status,ceremony_at,description").in("status",["planned","nominations","voting","ceremony"]).order("award_year",{ascending:false}).limit(1);
+ const a=q.data?.[0]; if(!a)return;
+ const el=document.getElementById("spectrumSeasonBanner"); if(!el)return;
+ el.style.cssText="display:block;margin:14px auto;padding:12px 16px;max-width:1100px;border:1px solid rgba(50,230,255,.25);border-radius:12px;background:rgba(50,230,255,.04);color:#dfefff;font:700 11px Montserrat;letter-spacing:.5px";
+ el.innerHTML="ACTIVE SPECTRUM SEASON · "+String(a.award_year)+" — "+String(a.title).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+}catch(e){console.warn("Spectrum season:",e)}})();
+</script>
