@@ -53,6 +53,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#68687a;font-size:1
 <div class="stage"><div class="halo"></div><div class="rings"></div><div class="rings two"></div><div class="trophy"><div class="cup"></div><div class="star">★</div><div class="stem"></div><div class="base"></div></div></div>
 </section>
 
+<section id="seasonHub"><div class="wrap reveal"><div class="eyebrow">LIVE / CURRENT EDITION</div><h2 class="section-title">THE CURRENT SPECTRUM.</h2><p class="lead" id="seasonLead">Loading the current awards edition…</p><div class="grid" id="seasonCards"><article class="card"><div class="num">SEASON</div><h3 id="seasonTitle">Loading…</h3><p id="seasonStatus">Checking live awards status.</p></article><article class="card"><div class="num">CATEGORIES</div><h3 id="seasonCategories">—</h3><p>Active categories currently configured for the Spectrum Awards.</p></article><article class="card"><div class="num">NEXT STEP</div><h3 id="seasonAction">—</h3><p id="seasonActionText">The public experience will follow the active awards lifecycle.</p></article></div><div class="actions" id="seasonActions"></div></div></section>
 <section id="about"><div class="wrap reveal"><div class="eyebrow">01 / THE CONCEPT</div><h2 class="section-title">AN AWARDS UNIVERSE.</h2><p class="lead">Spectrum is more than a trophy. The long-term concept is a connected recognition platform where creators, productions, performers, audiences, and communities can meet inside the CrowRules universe.</p>
 <div class="grid">
 <article class="card"><div class="num">01 / STORIES</div><h3>FILM & TELEVISION</h3><p>Recognizing productions, performances, writing, directing, and the stories that reach audiences on screen.</p></article>
@@ -147,7 +148,26 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
 </script>
 <style>
 .spectrum-data-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:25px}.spectrum-data-grid>div{padding:20px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.03)}.spectrum-data-grid strong,.spectrum-data-grid span{display:block}.spectrum-data-grid strong{font:700 10px Orbitron;letter-spacing:2px;color:#32e6ff;margin-bottom:8px}.spectrum-data-grid span{font-weight:800}@media(max-width:700px){.spectrum-data-grid{grid-template-columns:1fr}}
-</style><div style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><a href="nominate.html" style="padding:10px 14px;border:1px solid #32e6ff;border-radius:999px;background:#05050bcc;color:#32e6ff;text-decoration:none;font:700 11px Orbitron">NOMINATE</a><a href="vote.html" style="padding:10px 14px;border:1px solid #9b5cff;border-radius:999px;background:#05050bcc;color:#fff;text-decoration:none;font:700 11px Orbitron">VOTE</a></div></body></html><script>
+</style><div style="position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:50;display:flex;gap:8px;flex-wrap:wrap;justify-content:center"><a href="nominate.html" style="padding:10px 14px;border:1px solid #32e6ff;border-radius:999px;background:#05050bcc;color:#32e6ff;text-decoration:none;font:700 11px Orbitron">NOMINATE</a><a href="vote.html" style="padding:10px 14px;border:1px solid #9b5cff;border-radius:999px;background:#05050bcc;color:#fff;text-decoration:none;font:700 11px Orbitron">VOTE</a></div><script>
+(async function(){
+ try{
+  const db=window.supabase.createClient(CROWRULES_SUPABASE_URL,CROWRULES_SUPABASE_KEY);
+  const q=await db.from("spectrum_awards").select("id,award_year,title,status,ceremony_at").order("award_year",{ascending:false}).limit(1);
+  if(q.error)throw q.error;
+  const s=q.data?.[0];
+  if(!s){document.getElementById("seasonLead").textContent="The first Spectrum Awards edition is being prepared. The public season hub will activate when an edition is created.";return}
+  document.getElementById("seasonTitle").textContent=s.award_year+" — "+s.title;
+  document.getElementById("seasonStatus").textContent="Current lifecycle: "+s.status.toUpperCase();
+  const cats=await db.from("spectrum_award_categories").select("id",{count:"exact",head:true}).eq("is_active",true);
+  document.getElementById("seasonCategories").textContent=String(cats.count??0);
+  const action={planned:["NOMINATIONS","Nominations are being prepared.","nominate.html"],nominations:["NOMINATE","Submit a nomination for this edition.","nominate.html"],voting:["VOTE","Participate in the current voting period.","vote.html"],ceremony:["WINNERS","View certified winners and ceremony information.","winners.html"],completed:["ARCHIVE","Explore the completed awards edition.","winners.html"]}[s.status]||["SPECTRUM","Follow the development of the awards.","#about"];
+  document.getElementById("seasonAction").textContent=action[0];
+  document.getElementById("seasonActionText").textContent=action[1];
+  document.getElementById("seasonLead").textContent="The live Spectrum experience is currently in the "+s.status+" phase for "+s.award_year+".";
+  document.getElementById("seasonActions").innerHTML='<a class="btn primary" href="'+action[2]+'">'+action[0]+'</a><a class="btn" href="dashboard.html">AWARDS DASHBOARD</a>';
+ }catch(e){document.getElementById("seasonLead").textContent="Live awards data is temporarily unavailable.";console.error(e)}
+})();
+</script></body></html><script>
 (async()=>{try{
  const m=await window.CrowRulesMembership.getCrowRulesMember(); if(!m?.client)return;
  const q=await m.client.from("spectrum_awards").select("id,award_year,title,status,ceremony_at,description").in("status",["planned","nominations","voting","ceremony"]).order("award_year",{ascending:false}).limit(1);
