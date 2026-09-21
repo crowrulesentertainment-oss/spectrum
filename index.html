@@ -15,7 +15,7 @@ body:before{content:"";position:fixed;inset:0;z-index:-5;background:radial-gradi
 #stars{position:fixed;inset:0;z-index:-4;overflow:hidden}.star{position:absolute;width:2px;height:2px;border-radius:50%;background:#fff;opacity:.5;animation:drift linear infinite}@keyframes drift{from{transform:translateY(0)}to{transform:translateY(-110vh)}}
 #beam{position:fixed;inset:-20%;z-index:-3;pointer-events:none;background:conic-gradient(from 90deg at 50% 50%,transparent 0deg,rgba(50,230,255,.05) 55deg,transparent 105deg,rgba(155,92,255,.06) 190deg,transparent 245deg);filter:blur(40px);animation:spin 28s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
 header{position:fixed;top:0;left:0;right:0;z-index:20;background:rgba(2,2,5,.68);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
-.nav{width:min(var(--max),calc(100% - 32px));margin:auto;height:72px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}.mark{width:38px;height:38px;border-radius:11px;background:conic-gradient(#ff3ca6,#ffd76a,#32e6ff,#9b5cff,#ff3ca6);box-shadow:0 0 28px rgba(155,92,255,.3);position:relative}.mark:after{content:"S";position:absolute;inset:2px;border-radius:9px;background:#080810;display:grid;place-items:center;font:800 17px Orbitron}.brand strong{font:800 13px Orbitron;letter-spacing:1.8px}.brand span{display:block;font-size:9px;color:#77778b;letter-spacing:2px;margin-top:3px}.links{display:flex;gap:4px}.links a{color:#aaaabd;text-decoration:none;font-size:11px;font-weight:700;padding:10px 12px;border-radius:10px}.links a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav{width:min(var(--max),calc(100% - 32px));margin:auto;height:72px;display:flex;align-items:center;justify-content:space-between}.brand{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}.mark{width:38px;height:38px;border-radius:11px;background:conic-gradient(#ff3ca6,#ffd76a,#32e6ff,#9b5cff,#ff3ca6);box-shadow:0 0 28px rgba(155,92,255,.3);position:relative}.mark:after{content:"S";position:absolute;inset:2px;border-radius:9px;background:#080810;display:grid;place-items:center;font:800 17px Orbitron}.brand strong{font:800 13px Orbitron;letter-spacing:1.8px}.member-nav{position:relative;margin-left:8px}.member-btn{border:1px solid rgba(50,230,255,.28);background:rgba(50,230,255,.05);color:#fff;border-radius:10px;padding:10px 12px;font:700 10px Orbitron;letter-spacing:1px;cursor:pointer}.member-menu{display:none;position:absolute;right:0;top:46px;width:260px;padding:15px;border:1px solid var(--line);border-radius:14px;background:rgba(7,7,14,.96);box-shadow:0 18px 45px rgba(0,0,0,.4);font-size:12px}.member-menu.open{display:block}.member-menu a,.member-menu button{display:block;width:100%;text-align:left;margin-top:9px}.member-menu .member-name{font-weight:800;color:#fff}.member-menu .member-plan{color:var(--cyan);margin-top:4px}.member-menu .member-muted{color:var(--muted);line-height:1.5}.member-menu .member-action{border:1px solid var(--line);border-radius:9px;padding:9px;background:rgba(255,255,255,.04);color:#fff;text-decoration:none;cursor:pointer}.brand span{display:block;font-size:9px;color:#77778b;letter-spacing:2px;margin-top:3px}.links{display:flex;gap:4px}.links a{color:#aaaabd;text-decoration:none;font-size:11px;font-weight:700;padding:10px 12px;border-radius:10px}.links a:hover{color:#fff;background:rgba(255,255,255,.06)}
 .hero{min-height:100vh;width:min(var(--max),calc(100% - 32px));margin:auto;display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:50px;padding:120px 0 70px}.kicker{font:700 11px Orbitron;letter-spacing:3px;color:var(--cyan);text-transform:uppercase}.hero h1{font:900 clamp(58px,9vw,122px)/.86 Orbitron;letter-spacing:-7px;margin:18px 0;background:linear-gradient(100deg,#fff 5%,#fff 30%,#32e6ff 48%,#9b5cff 66%,#ff3ca6 82%,#ffd76a);-webkit-background-clip:text;background-clip:text;color:transparent}.hero h2{font:600 clamp(18px,2.2vw,27px) Montserrat;color:#d9d9e5;max-width:680px}.hero p{max-width:650px;color:var(--muted);line-height:1.8;margin-top:20px;font-size:15px}.actions{display:flex;flex-wrap:wrap;gap:11px;margin-top:28px}.btn{border:1px solid var(--line);border-radius:12px;padding:13px 17px;text-decoration:none;color:#fff;font-size:12px;font-weight:800;cursor:pointer;background:rgba(255,255,255,.04)}.primary{border:0;background:linear-gradient(100deg,#32e6ff,#9b5cff,#ff3ca6);box-shadow:0 12px 38px rgba(155,92,255,.22)}.btn:hover{transform:translateY(-2px)}
 .stage{height:560px;display:grid;place-items:center;position:relative}.halo{position:absolute;width:430px;height:430px;border-radius:50%;background:radial-gradient(circle,rgba(255,215,106,.15),rgba(155,92,255,.08) 38%,transparent 70%);filter:blur(15px)}.rings{position:absolute;width:480px;height:180px;border:1px solid rgba(50,230,255,.25);border-radius:50%;transform:rotate(-18deg);animation:orbit 10s linear infinite}.rings.two{width:390px;height:150px;border-color:rgba(255,60,166,.22);transform:rotate(55deg);animation-duration:14s}@keyframes orbit{to{transform:rotate(342deg)}}
 .trophy{position:relative;width:230px;height:340px;filter:drop-shadow(0 25px 35px rgba(0,0,0,.5));animation:float 4s ease-in-out infinite}@keyframes float{50%{transform:translateY(-12px)}}.cup{position:absolute;left:37px;top:45px;width:156px;height:135px;border-radius:18px 18px 65px 65px;background:linear-gradient(135deg,#fff7b0,#ffd76a,#b96b19);box-shadow:inset 9px 8px 18px rgba(255,255,255,.5),0 0 40px rgba(255,215,106,.22)}.cup:before,.cup:after{content:"";position:absolute;top:20px;width:63px;height:88px;border:13px solid #d99a35}.cup:before{left:-48px;border-right:0;border-radius:55px 0 0 60px}.cup:after{right:-48px;border-left:0;border-radius:0 55px 60px 0}.star{position:absolute;left:50%;top:73px;transform:translateX(-50%);font-size:55px;color:#fff;text-shadow:0 0 8px #fff,0 0 22px #ffd76a}.stem{position:absolute;left:97px;top:170px;width:36px;height:82px;background:linear-gradient(#ffd76a,#a95c17)}.base{position:absolute;left:43px;bottom:8px;width:144px;height:58px;border-radius:9px;background:linear-gradient(145deg,#fff0a0,#d69a2e,#6f3510)}.base:after{content:"SPECTRUM";position:absolute;inset:21px 0 0;text-align:center;font:600 8px Orbitron;letter-spacing:2px;color:#fff}
@@ -30,12 +30,15 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#68687a;font-size:1
 @media(max-width:620px){.links{display:none}.hero{padding-top:105px}.hero h1{letter-spacing:-5px}.stage{height:360px;transform:scale(.78)}.grid{grid-template-columns:1fr}section{padding:78px 0}.foot{flex-direction:column}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;scroll-behavior:auto!important}}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase.js"></script>
 </head>
 <body>
 <div id="stars"></div><div id="beam"></div>
 <header><nav class="nav">
 <a class="brand" href="#"><div class="mark"></div><div><strong>SPECTRUM AWARDS</strong><span>CROWRULES ENTERTAINMENT</span></div></a>
-<div class="links"><a href="#about">ABOUT</a><a href="#categories">CATEGORIES</a><a href="#roadmap">ROADMAP</a><a href="#vision">VISION</a></div>
+<div class="links"><a href="#about">ABOUT</a><a href="#categories">CATEGORIES</a><a href="#roadmap">ROADMAP</a><a href="#vision">VISION</a><a href="https://crowrulesentertainment-oss.github.io/crowrulesentertainment/membership.html">MEMBERSHIP</a></div>
+<div class="member-nav" id="memberNav"><button class="member-btn" id="memberBtn">MEMBERSHIP</button><div class="member-menu" id="memberMenu"><div id="memberState">Checking membership…</div></div></div>
 </nav></header>
 
 <main>
@@ -45,7 +48,7 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#68687a;font-size:1
 <h1>SPECTRUM</h1>
 <h2>A new awards universe for the full spectrum of entertainment.</h2>
 <p>Film. Television. Music. Podcasting. Digital media. Independent creators. Spectrum Awards is being built as a cinematic celebration of the people, stories, performances, and ideas that make entertainment matter.</p>
-<div class="actions"><a class="btn primary" href="#about">ENTER THE SPECTRUM</a><a class="btn" href="#roadmap">VIEW THE ROADMAP</a></div>
+<div class="actions"><a class="btn primary" href="#about">ENTER THE SPECTRUM</a><a class="btn" href="#roadmap">VIEW THE ROADMAP</a><a class="btn" href="https://crowrulesentertainment-oss.github.io/crowrulesentertainment/membership.html">JOIN CROWRULES</a></div>
 </div>
 <div class="stage"><div class="halo"></div><div class="rings"></div><div class="rings two"></div><div class="trophy"><div class="cup"></div><div class="star">★</div><div class="stem"></div><div class="base"></div></div></div>
 </section>
@@ -83,6 +86,29 @@ footer{border-top:1px solid var(--line);padding:28px 0;color:#68687a;font-size:1
 </main>
 <footer><div class="foot"><div>© <span id="year"></span> CrowRules Entertainment • Spectrum Awards</div><div class="status">STATUS: IN DEVELOPMENT</div></div></footer>
 <script>
+const memberBtn=document.getElementById("memberBtn"), memberMenu=document.getElementById("memberMenu"), memberState=document.getElementById("memberState");
+memberBtn.addEventListener("click",()=>memberMenu.classList.toggle("open"));
+document.addEventListener("click",e=>{if(!memberMenu.contains(e.target)&&!memberBtn.contains(e.target))memberMenu.classList.remove("open")});
+async function renderUniversalMembership(){
+  try{
+    const result=await window.CrowRulesMembership.getCrowRulesMember();
+    if(!result.user){
+      memberState.innerHTML='<div class="member-muted">One Account. One Universe.<br>Sign in to connect your Spectrum experience to your CrowRules membership.</div><a class="member-action" href="https://crowrulesentertainment-oss.github.io/crowrulesentertainment/membership.html">SIGN IN / JOIN</a>';
+      return;
+    }
+    const display=result.profile?.display_name || result.profile?.username || result.user.email || "CrowRules Member";
+    const plan=result.membership?.plan_name || result.membership?.membership_type || "Universal Member";
+    const status=result.membership?.status || "active";
+    memberState.innerHTML='<div class="member-name">'+escapeHtml(display)+'</div><div class="member-plan">'+escapeHtml(plan)+'</div><div class="member-muted">Status: '+escapeHtml(status)+'<br>Connected to the CrowRules universe.</div><a class="member-action" href="https://crowrulesentertainment-oss.github.io/crowrulesentertainment/membership.html">OPEN MEMBERSHIP</a><button class="member-action" id="spectrumSignOut">SIGN OUT</button>';
+    document.getElementById("spectrumSignOut").onclick=window.CrowRulesMembership.signOutCrowRules;
+  }catch(error){
+    memberState.innerHTML='<div class="member-muted">Membership connection is not configured yet. Add the Supabase publishable key in assets/supabase.js.</div><a class="member-action" href="https://crowrulesentertainment-oss.github.io/crowrulesentertainment/membership.html">OPEN MEMBERSHIP</a>';
+    console.error("CrowRules Membership:",error);
+  }
+}
+function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]));}
+renderUniversalMembership();
+
 document.getElementById('year').textContent=new Date().getFullYear();
 const stars=document.getElementById('stars');for(let i=0;i<95;i++){const s=document.createElement('i');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.opacity=.15+Math.random()*.55;s.style.animationDuration=12+Math.random()*25+'s';s.style.animationDelay=-Math.random()*25+'s';stars.appendChild(s)}
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('show');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(x=>io.observe(x));
