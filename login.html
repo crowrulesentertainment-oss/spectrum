@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#020205">
+<title>CrowRules Login | One Account. One Universe.</title>
+<meta name="description" content="Sign in to your universal CrowRules Entertainment membership.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="assets/supabase.js"></script>
+<style>
+:root{--bg:#020205;--panel:rgba(12,12,22,.88);--line:rgba(255,255,255,.12);--text:#f8f8ff;--muted:#9b9bac;--cyan:#32e6ff;--purple:#9b5cff;--pink:#ff3ca6}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 10%,rgba(50,230,255,.11),transparent 30%),radial-gradient(circle at 80% 20%,rgba(155,92,255,.14),transparent 32%),#020205;color:var(--text);font-family:Montserrat,Arial,sans-serif;display:grid;place-items:center;padding:24px}.card{width:min(520px,100%);padding:42px;border:1px solid var(--line);border-radius:26px;background:var(--panel);box-shadow:0 25px 80px #0008;text-align:center}.mark{width:62px;height:62px;margin:0 auto 22px;border-radius:18px;background:conic-gradient(var(--pink),#ffd76a,var(--cyan),var(--purple),var(--pink));display:grid;place-items:center}.mark:after{content:"C";width:56px;height:56px;border-radius:16px;background:#080810;display:grid;place-items:center;font:900 25px Orbitron}.eyebrow{font:700 10px Orbitron;letter-spacing:3px;color:var(--cyan)}h1{font:900 clamp(30px,7vw,52px) Orbitron;letter-spacing:-2px;margin:13px 0}p{color:var(--muted);line-height:1.7}.google{width:100%;margin-top:22px;padding:15px;border:0;border-radius:12px;background:linear-gradient(100deg,var(--cyan),var(--purple),var(--pink));color:#fff;font-weight:900;cursor:pointer}.back{display:inline-block;margin-top:18px;color:#aaaabd;text-decoration:none;font-size:12px}.status{min-height:22px;margin-top:16px;font-size:12px;color:var(--muted)}.member{margin-top:20px;padding:16px;border:1px solid rgba(50,230,255,.25);border-radius:14px;text-align:left}.member strong{font-family:Orbitron}.member button{margin-top:12px;background:#15151d;border:1px solid var(--line);color:#fff;padding:10px 12px;border-radius:9px;cursor:pointer}
+</style>
+</head>
+<body><main class="card">
+<div class="mark"></div><div class="eyebrow">CROWRULES ENTERTAINMENT</div><h1>ONE ACCOUNT.<br>ONE UNIVERSE.</h1>
+<p>Use your universal CrowRules account across Spectrum Awards and the wider CrowRules Entertainment ecosystem.</p>
+<button class="google" id="google">CONTINUE WITH GOOGLE</button>
+<div class="status" id="status"></div><div id="member"></div>
+<a class="back" href="index.html">← Back to Spectrum Awards</a>
+</main>
+<script>
+const statusEl=document.getElementById("status"),memberEl=document.getElementById("member");
+const params=new URLSearchParams(location.search),next=params.get("next")||"index.html";
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+async function render(){
+ try{
+  const m=await window.CrowRulesMembership.getCrowRulesMember();
+  if(!m.user){statusEl.textContent="Not signed in.";return;}
+  const name=m.profile?.display_name||m.profile?.username||m.user.email;
+  const plan=m.membership?.plan_name||m.membership?.membership_type||"Universal Member";
+  statusEl.textContent="Signed in.";
+  memberEl.innerHTML='<div class="member"><strong>'+esc(name)+'</strong><br><span style="color:#32e6ff">'+esc(plan)+'</span><br><button id="continue">CONTINUE</button> <button id="out">SIGN OUT</button></div>';
+  document.getElementById("continue").onclick=()=>location.href=next;
+  document.getElementById("out").onclick=window.CrowRulesMembership.signOutCrowRules;
+ }catch(e){statusEl.textContent=e.message||"Membership connection failed.";}
+}
+document.getElementById("google").onclick=async()=>{
+ try{statusEl.textContent="Opening Google sign-in…";await window.CrowRulesMembership.signInWithCrowRulesGoogle(new URL(next,location.href).href);}
+ catch(e){statusEl.textContent=e.message||"Google sign-in failed.";}
+};
+render();
+</script></body></html>
