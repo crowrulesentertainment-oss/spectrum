@@ -121,4 +121,30 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.targ
  el.innerHTML='<div style="padding:12px 15px;border:1px solid rgba(50,230,255,.35);border-radius:12px;background:rgba(5,8,15,.95);color:#fff">👤 '+String(name).replace(/[<>&"]/g,"")+'<br><span style="color:#32e6ff">'+String(plan).replace(/[<>&"]/g,"")+'</span><br><a href="membership.html" style="color:#fff">MEMBERSHIP</a> · <button id="crSignOut" style="background:none;border:0;color:#ff6b6b;cursor:pointer">SIGN OUT</button></div>';
  document.getElementById("crSignOut").onclick=window.CrowRulesMembership.signOutCrowRules;
  }catch(e){console.warn("CrowRules membership:",e)}})();
-</script></body></html>
+</script><script>
+(function(){
+ async function spectrumLive(){
+  const api=window.CrowRulesMembership;
+  if(!api) return;
+  try{
+   const client=await api.loadCrowRulesSupabase();
+   const [award,cats,events]=await Promise.all([
+    client.from("spectrum_awards").select("id,award_year,title,status,ceremony_at,description").order("award_year",{ascending:false}).limit(1),
+    client.from("spectrum_awards_categories").select("id,name,description,category_type").eq("is_active",true).order("sort_order"),
+    client.from("spectrum_award_events").select("id,event_name,event_date,venue,format,description,status").eq("is_published",true).order("event_date",{ascending:true}).limit(6)
+   ]);
+   const a=award.data?.[0], root=document.querySelector("main")||document.body;
+   if(a && !document.getElementById("spectrum-live-data")){
+    const s=document.createElement("section"); s.id="spectrum-live-data"; s.className="section";
+    s.innerHTML='<div class="section-kicker">LIVE AWARDS DATA</div><h2>'+esc(a.title||("Spectrum Awards "+a.award_year))+'</h2><p>'+esc(a.description||"The Spectrum Awards database is connected.")+'</p><div class="spectrum-data-grid"><div><strong>STATUS</strong><span>'+esc(a.status||"Planning")+'</span></div><div><strong>CATEGORIES</strong><span>'+((cats.data||[]).length)+'</span></div><div><strong>EVENTS</strong><span>'+((events.data||[]).length)+'</span></div></div></section>';
+    root.appendChild(s);
+   }
+  }catch(e){console.warn("Spectrum data connection:",e);}
+ }
+ function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+ spectrumLive();
+})();
+</script>
+<style>
+.spectrum-data-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:25px}.spectrum-data-grid>div{padding:20px;border:1px solid rgba(255,255,255,.12);border-radius:16px;background:rgba(255,255,255,.03)}.spectrum-data-grid strong,.spectrum-data-grid span{display:block}.spectrum-data-grid strong{font:700 10px Orbitron;letter-spacing:2px;color:#32e6ff;margin-bottom:8px}.spectrum-data-grid span{font-weight:800}@media(max-width:700px){.spectrum-data-grid{grid-template-columns:1fr}}
+</style></body></html>
