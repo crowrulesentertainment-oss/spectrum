@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Spectrum Awards | Nominee Detail</title>
+<link rel="stylesheet" href="css/spectrum.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://crowrulesentertainment-oss.github.io/crowrulesentertainment/js/crowrules-sitewide.js?v=3" defer></script>
+<script src="https://crowrulesentertainment-oss.github.io/crowrulesentertainment/js/crowrules-universal-member.js?v=2" defer></script>
+<script src="js/spectrum.js"></script>
+</head>
+<body>
+<header class="topbar"><nav class="nav"><a class="brand" href="home.html">SPECTRUM<span>AWARDS</span></a><button class="menu">☰</button><div id="global-nav" class="navlinks"></div><a class="btn" href="admin.html">Awards HQ</a><div id="member-status"></div></nav></header>
+<main class="wrap">
+<section class="section">
+<div id="nominee-detail"><div class="notice">Loading nominee…</div></div>
+</section>
+</main>
+<footer class="footer"><div class="wrap">Spectrum Awards • Nominee Detail</div></footer>
+<script>
+document.addEventListener("DOMContentLoaded",async()=>{
+  await initSpectrum();
+  const box=document.getElementById("nominee-detail");
+  const id=new URLSearchParams(location.search).get("id");
+  if(!id){box.innerHTML='<div class="notice error">No nominee was specified.</div>';return}
+  if(!sb){box.innerHTML='<div class="notice error">Spectrum is not connected to Supabase.</div>';return}
+  const r=await sb.from("spectrum_nominees").select("id,name,description,status,category_id,subcategory_id,award_id,created_at").eq("id",id).in("status",["official","winner"]).maybeSingle();
+  if(r.error){box.innerHTML='<div class="notice error">'+esc(r.error.message)+'</div>';return}
+  const n=r.data;
+  if(!n){box.innerHTML='<div class="notice">This nominee is not currently available in the public archive.</div>';return}
+  const [cr,sr,vr]=await Promise.all([
+    sb.from("spectrum_categories").select("id,name").eq("id",n.category_id).maybeSingle(),
+    n.subcategory_id?sb.from("spectrum_subcategories").select("id,name").eq("id",n.subcategory_id).maybeSingle():Promise.resolve({data:null}),
+    sb.from("spectrum_voting_config").select("id,award_id,voting_status,opens_at,closes_at,eligibility,max_votes_per_category,public_results_enabled,certified_at").eq("award_id",n.award_id).maybeSingle()
+  ]);
+  const cat=cr.data?.name||"Category";
+  const sub=sr.data?.name||"";
+  const v=vr.data;
+  const fmt=d=>d?new Date(d).toLocaleString():"Not scheduled";
+  let voting="";
+  if(v){
+    let state=v.voting_status==="open"?"OPEN NOW":v.voting_status.toUpperCase();
+    voting='<div class="card"><div class="eyebrow">VOTING</div><h2>'+esc(state)+'</h2><p>Eligibility: <b>'+esc(v.eligibility)+'</b></p><p>Maximum votes per category: <b>'+esc(String(v.max_votes_per_category))+'</b></p><p>Opens: '+esc(fmt(v.opens_at))+'<br>Closes: '+esc(fmt(v.closes_at))+'</p>'+ (v.voting_status==="open"?'<a class="btn primary" href="pre-voting.html">Go to Voting →</a>':"")+'</div>';
+  }else{
+    voting='<div class="card"><div class="eyebrow">VOTING</div><h2>Not Currently Open</h2><p>Voting configuration details are not publicly available until the Spectrum Awards voting window is opened for public results.</p></div>';
+  }
+  box.innerHTML='<a class="btn" href="nominees.html">← Official Nominees</a><div class="section"><div class="eyebrow">OFFICIAL NOMINEE</div><h1>'+esc(n.name)+'</h1><p class="lead">'+esc(cat)+(sub?" • "+esc(sub):"")+'</p><div class="grid"><div class="card"><div class="eyebrow">NOMINATION</div><p><b>Category</b><br>'+esc(cat)+'</p>'+(sub?'<p><b>Subcategory</b><br>'+esc(sub)+'</p>':"")+'<p><b>Status</b><br><span class="chip">'+esc(n.status.toUpperCase())+'</span></p><p><b>Published</b><br>'+esc(fmt(n.created_at))+'</p></div><div class="card"><div class="eyebrow">DESCRIPTION</div><p>'+esc(n.description||"No description provided.")+'</p></div></div>'+voting+'</div>';
+});
+</script>
+</body>
+</html>
